@@ -1,7 +1,8 @@
 import React from 'react';
+import withBaseLayout from '../../hocs/withBaseLayout';
 
 const Play = () => (
   <div>Play</div>
 );
 
-export default Play;
+export default withBaseLayout(Play);

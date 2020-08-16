@@ -4,7 +4,7 @@ import Svg from './Svg';
 
 const Navbar = () => (
   <div className="navbar-container">
-    <nav className="navbar navbar-expand-lg navbar-dark" data-overlay data-sticky="top">
+    <nav className="navbar navbar-expand-lg navbar-dark" data-overlay="" data-sticky="top">
       <div className="container">
         <a className="navbar-brand fade-page" href="#">
           <Svg src={logo} />
@@ -20,7 +20,7 @@ const Navbar = () => (
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
-                  Blog
+                  About
                 </a>
                 <div className="dropdown-menu row">
                   <div className="col-auto" data-dropdown-content>
@@ -114,7 +114,7 @@ const Navbar = () => (
                   aria-expanded="false"
                   aria-haspopup="true"
                 >
-                  Support
+                  Create Game
                 </a>
                 <div className="dropdown-menu row">
                   <div className="col-auto px-0" data-dropdown-content>
