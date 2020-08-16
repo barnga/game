@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Test from './components/Test';
+import Test from './Test';
 
 const App = () => {
   return (
