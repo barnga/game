@@ -1,8 +1,14 @@
 import React from 'react';
-import withBaseLayout from '../../hocs/withBaseLayout';
+import GameCodeForm from './components/GameCodeForm';
+import SimpleForm from '../../components/SimpleForm';
 
 const Play = () => (
-  <div>Play</div>
+  <SimpleForm>
+    <div className="text-center mb-4">
+      <h1 className="mb-1">Enter game code</h1>
+    </div>
+    <GameCodeForm />
+  </SimpleForm>
 );
 
-export default withBaseLayout(Play);
+export default Play;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import AppContext from './contexts/AppContext';
+import { AppContext } from './contexts/Contexts';
 import injectStylesheet from './helpers/injectStylesheet';
 
 const Main = ({ children }) => {

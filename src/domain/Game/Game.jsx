@@ -1,7 +1,9 @@
 import React from 'react';
 
 const Game = () => (
-  <div>game page</div>
+  <div>
+    placeholder page for game
+  </div>
 );
 
 export default Game;
