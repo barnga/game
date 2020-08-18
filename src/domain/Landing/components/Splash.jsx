@@ -1,4 +1,5 @@
 import React from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 import Svg from '../../../components/Svg';
 import blob2 from '../../../assets/img/decorations/deco-blob-2.svg';
 import dots6 from '../../../assets/img/decorations/deco-dots-6.svg';
@@ -19,9 +20,9 @@ const Splash = () => (
       </div>
     </div>
     <section className="min-vh-70 o-hidden d-flex flex-column justify-content-center">
-      <div className="container">
-        <div className="row justify-content-center text-center align-items-center">
-          <div className="col-xl-8 col-lg-9 col-md-10 layer-3">
+      <Container>
+        <Row className="justify-content-center text-center align-items-center">
+          <Col className="col-xl-8 col-lg-9 col-md-10 layer-3">
             <h1 className="display-3">
               Launch on time,
               <br />
@@ -35,9 +36,9 @@ const Splash = () => (
             </div>
             <a href="#demos" className="btn btn-lg btn-white mx-1">View Demos</a>
             <a href="#" className="btn btn-lg btn-primary-3 mx-1">Purchase</a>
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </section>
     <div className="divider flip-x">
       <Svg src={divider} classNames="divider" />

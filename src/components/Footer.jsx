@@ -20,7 +20,7 @@ const Footer = () => (
               className="position-relative d-flex flex-column flex-md-row justify-content-between align-items-center"
             >
               <div className="h3 text-center mb-md-0">Start building beautiful websites</div>
-              <LinkContainer to="/">
+              <LinkContainer to="/play">
                 <Button variant="white" size="lg">
                   Play Now
                 </Button>
@@ -37,13 +37,16 @@ const Footer = () => (
           <h5>Navigate</h5>
           <ul className="nav flex-column">
             <li className="nav-item">
-              <Link to="/" className="nav-link">About</Link>
+              <Link to="/" className="nav-link">Home</Link>
             </li>
             <li className="nav-item">
-              <Link to="/" className="nav-link">Create Game</Link>
+              <Link to="/about" className="nav-link">About</Link>
             </li>
             <li className="nav-item">
-              <Link to="/" className="nav-link">Play</Link>
+              <Link to="/create" className="nav-link">Create Game</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/play" className="nav-link">Play</Link>
             </li>
           </ul>
         </Col>

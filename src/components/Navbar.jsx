@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import logo from '../assets/img/logo-white.svg';
 import Svg from './Svg';
-import navItems from '../data/Data';
+import navItems from '../data/NavbarData';
 
 const Navbar = () => (
   <div className="navbar-container">
