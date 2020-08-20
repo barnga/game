@@ -7,4 +7,5 @@ export const AppContext = createContext({
 
 export const SocketContext = createContext({
   socket: null,
+  namespace: null,
 });

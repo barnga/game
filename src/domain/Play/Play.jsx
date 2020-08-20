@@ -1,5 +1,5 @@
 import React from 'react';
-import GameCodeForm from './components/GameCodeForm';
+import GameCodeForm from './components/JoinGameForm';
 import SimpleForm from '../../components/SimpleForm';
 
 const Play = () => (

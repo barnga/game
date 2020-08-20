@@ -1,26 +1,40 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import handleGameCreation from '../scripts/handleGameCreation';
+import withSocket from '../../../hocs/withSocket';
+import { SocketContext } from '../../../contexts/Contexts';
+import useNamespace from '../../../hooks/useNamespace';
 
-const CreateGameForm = () => (
-  <Formik
-    initialValues={{
-      something: '',
-    }}
-    onSubmit={(values) => {
-      // socket.emit('')
-      console.log(values.something);
-    }}
-  >
-    <Form>
-      <div className="form-group">
-        <Field name="something" className="form-control" placeholder="something" />
-      </div>
-      <div className="form-group">
-        <Button block variant="primary" type="submit">Create game</Button>
-      </div>
-    </Form>
-  </Formik>
-);
+const CreateGameForm = ({ history }) => {
+  const { socket } = useContext(SocketContext);
+  useNamespace('http://localhost:3000');
 
-export default CreateGameForm;
+  return (
+    <Formik
+      initialValues={{
+        timeLimit: '',
+      }}
+      onSubmit={(values) => handleGameCreation({ values, socket, history })}
+    >
+      <Form>
+        <div className="form-group">
+          <Field name="timeLimit" className="form-control" placeholder="5 minutes" autoComplete="off" />
+        </div>
+        <div className="form-group">
+          <Button block variant="primary" type="submit">Create game</Button>
+        </div>
+      </Form>
+    </Formik>
+  );
+};
+
+CreateGameForm.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+};
+
+export default withRouter(withSocket(CreateGameForm));
