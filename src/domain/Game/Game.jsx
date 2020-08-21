@@ -1,31 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useParams, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
+import { Container } from 'react-bootstrap';
 import withSocket from '../../hocs/withSocket';
 import useNamespace from '../../hooks/useNamespace';
 import { SocketContext } from '../../contexts/Contexts';
 import WaitingRoom from './components/WaitingRoom';
-
-// TODO: Add loading page
+import Loading from '../../components/Loading';
 
 const Game = ({ history }) => {
   const { gameId } = useParams();
   const { socket } = useContext(SocketContext) || {};
   useNamespace(`http://localhost:3000/${gameId}`);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   if (socket) {
     socket.on('redirect to join', () => {
       history.push('/play');
     });
-    socket.on('404', (data) => {
-      console.log(data);
+    socket.on('404', () => {
       history.push('/notfound');
     });
+    socket.on('200', () => setIsLoaded(true));
   }
 
-  return (
-    <WaitingRoom />
-  );
+  if (!isLoaded) {
+    return (
+      <Container className="d-flex min-vh-100 align-items-center justify-content-center">
+        <Loading />
+      </Container>
+    );
+  }
+
+  return <WaitingRoom />;
 };
 
 Game.propTypes = {
