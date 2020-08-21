@@ -7,20 +7,13 @@ const Players = () => {
   const [players, setPlayers] = useState([]);
 
   if (socket) {
-    socket.on('update', (players) => {
-      // setPlayers((currentPlayers) => currentPlayers.concat(player));
-      console.log(players);
-    });
+    socket.on('player update', (allPlayers) => setPlayers(allPlayers));
   }
 
-  // return (
-  //   <>
-  //     {players.map((player) => <Player data={player} />)}
-  //   </>
-  // );
-
   return (
-    <p>test</p>
+    <>
+      {players.map((player) => <Player data={player} key={player.id} />)}
+    </>
   );
 };
 

@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Player = ({ data }) => (
-  <div>{data.name}</div>
+  <div>{data.nickname}</div>
 );
 
 Player.propTypes = {
   data: PropTypes.shape({
-    name: PropTypes.string,
+    nickname: PropTypes.string,
   }),
 };
 

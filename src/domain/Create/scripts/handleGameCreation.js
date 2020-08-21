@@ -1,4 +1,6 @@
 const handleGameCreation = ({ values, socket, history }) => {
+  localStorage.setItem('role', 'teacher');
+
   if (socket) {
     socket.emit('create game', values, (response) => {
       if (response.success) {
