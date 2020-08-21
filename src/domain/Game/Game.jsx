@@ -3,8 +3,10 @@ import { useParams, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import withSocket from '../../hocs/withSocket';
 import useNamespace from '../../hooks/useNamespace';
-import Players from './components/Players';
 import { SocketContext } from '../../contexts/Contexts';
+import WaitingRoom from './components/WaitingRoom';
+
+// TODO: Add loading page
 
 const Game = ({ history }) => {
   const { gameId } = useParams();
@@ -22,10 +24,7 @@ const Game = ({ history }) => {
   }
 
   return (
-    <div>
-      <h1>Game ID: {gameId}</h1>
-      <Players />
-    </div>
+    <WaitingRoom />
   );
 };
 
