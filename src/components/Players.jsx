@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { SocketContext } from '../../../contexts/Contexts';
-import Player from '../../../components/Player';
-import Svg from '../../../components/Svg';
-import gamepad from '../../../assets/img/icons/theme/devices/gamepad-2.svg';
+import { SocketContext } from '../contexts/Contexts';
+import Player from './Player';
+import Svg from './Svg';
+import gamepad from '../assets/img/icons/theme/devices/gamepad-2.svg';
 
 const Players = () => {
   const { socket } = useContext(SocketContext) || {};

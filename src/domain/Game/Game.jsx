@@ -7,6 +7,7 @@ import useNamespace from '../../hooks/useNamespace';
 import { SocketContext } from '../../contexts/Contexts';
 import WaitingRoom from './components/WaitingRoom';
 import Loading from '../../components/Loading';
+import GameView from './components/GameView';
 
 const Game = ({ history }) => {
   const { gameId } = useParams();
@@ -38,7 +39,7 @@ const Game = ({ history }) => {
     return <WaitingRoom />;
   }
 
-  return <div>canvas</div>;
+  return <GameView />;
 };
 
 Game.propTypes = {

@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import {
   Alert, Button, Col, Container, Row,
 } from 'react-bootstrap';
-import Players from './Players';
+import Players from '../../../components/Players';
 import { SocketContext } from '../../../contexts/Contexts';
 import handleStartGame from '../scripts/handleStartGame';
 

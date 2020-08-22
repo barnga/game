@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import React, { useContext } from 'react';
+import { Card } from 'react-bootstrap';
+import { SocketContext } from '../contexts/Contexts';
 
 const Chat = () => {
-  const [result, setResult] = useState(false);
+  const { socket } = useContext(SocketContext) || {};
 
-  useEffect(() => {
-    const socket = io('http://localhost:3000');
-    socket.on('message', (data) => {
-      setResult(data);
-      socket.emit('message', 'hello server');
-    });
-
-    return () => socket.disconnect();
-  }, []);
+  socket.on('new message', (data) => console.log(data));
 
   return (
-    <div>{result}</div>
+    <Card>
+      <Card.Body>
+        <Card.Title>Chat</Card.Title>
+        <Card.Text>Chat stuff</Card.Text>
+      </Card.Body>
+    </Card>
   );
 };
 
