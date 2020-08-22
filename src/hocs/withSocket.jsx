@@ -22,7 +22,7 @@ const withSocket = (WrappedComponent) => {
       }
 
       return undefined;
-    }, [url]);
+    }, [url, localStorage]);
 
     return (
       <SocketContext.Provider value={{ socket, namespace }}>

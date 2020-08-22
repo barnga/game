@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Player = ({ data }) => (
-  <p>{data.nickname}</p>
+  <h6>{data.nickname}</h6>
 );
 
 Player.propTypes = {

@@ -9,15 +9,20 @@ import { SocketContext } from '../../../contexts/Contexts';
 import useNamespace from '../../../hooks/useNamespace';
 
 const CreateGameForm = ({ history }) => {
+  localStorage.setItem('role', 'teacher');
   const { socket } = useContext(SocketContext);
   useNamespace('http://localhost:3000');
+
+  if (!socket) return <></>;
 
   return (
     <Formik
       initialValues={{
         timeLimit: '',
       }}
-      onSubmit={(values) => handleGameCreation({ values, socket, history })}
+      onSubmit={(values) => {
+        handleGameCreation({ values, socket, history });
+      }}
     >
       <Form>
         <div className="form-group">

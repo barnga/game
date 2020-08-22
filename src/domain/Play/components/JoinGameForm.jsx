@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
-import { Button } from 'react-bootstrap';
+import { Alert, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import withSocket from '../../../hocs/withSocket';
@@ -9,8 +9,12 @@ import useNamespace from '../../../hooks/useNamespace';
 import handleJoinGame from '../scripts/handleJoinGame';
 
 const JoinGameForm = ({ history }) => {
+  localStorage.setItem('role', 'player');
   const { socket } = useContext(SocketContext) || {};
+  const [showError, setShowError] = useState(false);
   useNamespace('http://localhost:3000');
+
+  if (!socket) return <></>;
 
   return (
     <Formik
@@ -18,15 +22,26 @@ const JoinGameForm = ({ history }) => {
         gameId: '',
         nickname: '',
       }}
-      onSubmit={(values) => handleJoinGame({ values, socket, history })}
+      onSubmit={(values) => {
+        handleJoinGame({ values, socket, history }).then((success) => {
+          if (!success) {
+            setShowError(true);
+          }
+        });
+      }}
     >
       <Form>
+        {showError && (
+          <Alert variant="danger" onClose={() => setShowError(false)} dismissible>
+            We could not find a game with that code.
+          </Alert>
+        )}
         <div className="form-group">
-          <label>Game code</label>
+          <label className="form-control-label">Game code</label>
           <Field name="gameId" className="form-control" placeholder="Game code" autoComplete="off" />
         </div>
         <div className="form-group">
-          <label>Name</label>
+          <label className="form-control-label">Name</label>
           <Field name="nickname" className="form-control" placeholder="John Doe" autoComplete="off" />
         </div>
         <div className="form-group">

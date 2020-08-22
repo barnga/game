@@ -1,15 +1,10 @@
-const handleJoinGame = ({ values, socket, history }) => {
-  localStorage.setItem('role', 'player');
-
-  if (socket) {
-    socket.emit('join game', values, (response) => {
-      if (response.success) {
-        history.push(`/game/${values.gameId}`);
-      } else {
-        console.log('That game does not exist!');
-      }
-    });
-  }
-};
+const handleJoinGame = ({ values, socket, history }) => new Promise((resolve) => {
+  socket.emit('join game', values, (response) => {
+    if (response.success) {
+      history.push(`/game/${values.gameId}`);
+    }
+    resolve(response.success);
+  });
+});
 
 export default handleJoinGame;
