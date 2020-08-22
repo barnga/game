@@ -1,5 +1,9 @@
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
+import {
+  Button, Col, Container, Row,
+} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Svg from '../../../components/Svg';
 import blob2 from '../../../assets/img/decorations/deco-blob-2.svg';
 import dots6 from '../../../assets/img/decorations/deco-dots-6.svg';
@@ -24,18 +28,22 @@ const Splash = () => (
         <Row className="justify-content-center text-center align-items-center">
           <Col className="col-xl-8 col-lg-9 col-md-10 layer-3">
             <h1 className="display-3">
-              Launch on time,
+              The ultimate intercultural
               <br />
-              look on-trend.
+              understanding game.
             </h1>
             <div className="mb-4">
               <p className="lead px-xl-5">
-                Save countless hours of design and development
-                and ship performant sites with killer looks.
+                Barnga allows you to educate others about culture, communication,
+                and teamwork in a simple card game.
               </p>
             </div>
-            <a href="#demos" className="btn btn-lg btn-white mx-1">View Demos</a>
-            <a href="#" className="btn btn-lg btn-primary-3 mx-1">Purchase</a>
+            <LinkContainer to="/play">
+              <Button className="btn btn-lg btn-white mx-1">Play Now</Button>
+            </LinkContainer>
+            <Link to="/about">
+              <Button className="btn btn-lg btn-dark mx-1">How to Play</Button>
+            </Link>
           </Col>
         </Row>
       </Container>
