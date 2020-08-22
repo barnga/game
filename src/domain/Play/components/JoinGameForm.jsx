@@ -23,11 +23,8 @@ const JoinGameForm = ({ history }) => {
         nickname: '',
       }}
       onSubmit={(values) => {
-        handleJoinGame({ values, socket, history }).then((success) => {
-          if (!success) {
-            setShowError(true);
-          }
-        });
+        handleJoinGame({ values, socket, history })
+          .then((success) => setShowError(!success));
       }}
     >
       <Form>

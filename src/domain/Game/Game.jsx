@@ -13,6 +13,7 @@ const Game = ({ history }) => {
   const { socket } = useContext(SocketContext) || {};
   useNamespace(`http://localhost:3000/${gameId}`);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isGameStarted, setIsGameStarted] = useState(false);
 
   if (socket) {
     socket.on('redirect to join', () => {
@@ -22,6 +23,7 @@ const Game = ({ history }) => {
       history.push('/notfound');
     });
     socket.on('200', () => setIsLoaded(true));
+    socket.on('game started', () => setIsGameStarted(true));
   }
 
   if (!isLoaded) {
@@ -32,7 +34,11 @@ const Game = ({ history }) => {
     );
   }
 
-  return <WaitingRoom />;
+  if (isLoaded && !isGameStarted) {
+    return <WaitingRoom />;
+  }
+
+  return <div>canvas</div>;
 };
 
 Game.propTypes = {
