@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Alert, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -12,10 +12,6 @@ const JoinGameForm = ({ history }) => {
   const { socket } = useContext(SocketContext) || {};
   const [showError, setShowError] = useState(false);
   useNamespace('http://localhost:3000');
-
-  useEffect(() => {
-    localStorage.setItem('role', 'player');
-  }, []);
 
   if (!socket) return <></>;
 

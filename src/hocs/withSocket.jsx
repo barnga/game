@@ -13,7 +13,6 @@ const withSocket = (WrappedComponent) => {
         const socketIo = io(url, {
           query: {
             sessionId: localStorage.sessionId,
-            role: localStorage.role,
           },
         });
         setSocket(socketIo);
@@ -22,7 +21,7 @@ const withSocket = (WrappedComponent) => {
       }
 
       return undefined;
-    }, [url, localStorage]);
+    }, [url]);
 
     return (
       <SocketContext.Provider value={{ socket, namespace }}>

@@ -4,14 +4,17 @@ import {
   Alert, Button, Col, Container, Row,
 } from 'react-bootstrap';
 import Players from '../../../components/Players';
-import { SocketContext } from '../../../contexts/Contexts';
+import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import handleStartGame from '../scripts/handleStartGame';
 
 const WaitingRoom = () => {
-  const { socket } = useContext(SocketContext) || {};
   const { gameId } = useParams();
+  const { socket } = useContext(SocketContext) || {};
+  const { gameState } = useContext(GameContext) || {};
+  const [gameSettings] = gameState || [];
+  const { isTeacher } = gameSettings || {};
+
   const [showError, setShowError] = useState(false);
-  const isTeacher = localStorage.role === 'teacher';
 
   return (
     <section className="pb-0 pb-5">

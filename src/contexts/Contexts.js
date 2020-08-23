@@ -9,3 +9,7 @@ export const SocketContext = createContext({
   socket: null,
   namespace: null,
 });
+
+export const GameContext = createContext({
+  isTeacher: null,
+});
