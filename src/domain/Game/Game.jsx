@@ -7,14 +7,16 @@ import useNamespace from '../../hooks/useNamespace';
 import { GameContext, SocketContext } from '../../contexts/Contexts';
 import WaitingRoom from './components/WaitingRoom';
 import Loading from '../../components/Loading';
-import GameView from './components/GameView';
+import PlayerGameView from './components/PlayerGameView';
 import withGame from '../../hocs/withGame';
+import TeacherGameView from './components/TeacherGameView';
 
 const Game = ({ history, location }) => {
   const { gameId } = useParams();
   const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
+  const { isTeacher } = gameSettings || {};
   useNamespace(`http://localhost:3000/${gameId}`);
 
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,11 +48,15 @@ const Game = ({ history, location }) => {
     );
   }
 
-  if (isLoaded && !isGameStarted) {
+  if (!isGameStarted) {
     return <WaitingRoom />;
   }
 
-  return <GameView />;
+  if (isTeacher) {
+    return <TeacherGameView />;
+  }
+
+  return <PlayerGameView />;
 };
 
 Game.propTypes = {

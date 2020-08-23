@@ -5,7 +5,7 @@ import Leaderboard from '../../../components/Leaderboard';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import GameCanvas from '../../../components/GameCanvas';
 
-const GameView = () => {
+const PlayerGameView = () => {
   const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings] = gameState || [];
@@ -34,4 +34,4 @@ const GameView = () => {
   );
 };
 
-export default GameView;
+export default PlayerGameView;
