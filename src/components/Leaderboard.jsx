@@ -1,20 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Card } from 'react-bootstrap';
-import { SocketContext } from '../contexts/Contexts';
+import { GameContext } from '../contexts/Contexts';
 
 const Leaderboard = () => {
-  const { socket } = useContext(SocketContext) || {};
-  const [roomNumber, setRoomNumber] = useState(null);
-
-  useEffect(() => {
-    socket.emit('joined game', (data) => setRoomNumber(data.roomNumber));
-  }, []);
+  const { gameState } = useContext(GameContext) || {};
+  const [gameSettings] = gameState || [];
 
   return (
     <Card className="d-flex flex-grow-1">
       <Card.Body>
         <Card.Title>Leaderboard</Card.Title>
-        <Card.Text>{roomNumber}</Card.Text>
+        <Card.Subtitle>Group {gameSettings?.roomNumber}</Card.Subtitle>
         <Card.Text>Leaderboard text</Card.Text>
       </Card.Body>
     </Card>

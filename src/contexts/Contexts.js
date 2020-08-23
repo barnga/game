@@ -11,5 +11,5 @@ export const SocketContext = createContext({
 });
 
 export const GameContext = createContext({
-  isTeacher: null,
+  gameState: null,
 });

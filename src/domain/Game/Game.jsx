@@ -27,7 +27,7 @@ const Game = ({ history, location }) => {
       ...settings,
       isTeacher: location.state?.isTeacher || false,
     }));
-  }, [history]);
+  }, [location]);
 
   if (socket) {
     socket.on('redirect to join', () => {

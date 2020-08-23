@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Chat from '../../../components/Chat';
 import Leaderboard from '../../../components/Leaderboard';
@@ -8,15 +8,16 @@ import GameCanvas from '../../../components/GameCanvas';
 const PlayerGameView = () => {
   const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
-  const [gameSettings] = gameState || [];
-  const { isTeacher } = gameSettings || {};
+  const [gameSettings, setGameSettings] = gameState || [];
+
+  useEffect(() => {
+    socket.emit('joined game', (data) => {
+      setGameSettings((settings) => ({ ...settings, roomNumber: data.roomNumber }));
+    });
+  }, []);
 
   if (!socket) {
     return <></>;
-  }
-
-  if (isTeacher) {
-    return <div>you teacher brug</div>;
   }
 
   return (
