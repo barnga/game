@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -9,9 +9,12 @@ import { SocketContext } from '../../../contexts/Contexts';
 import useNamespace from '../../../hooks/useNamespace';
 
 const CreateGameForm = ({ history }) => {
-  localStorage.setItem('role', 'teacher');
   const { socket } = useContext(SocketContext);
   useNamespace('http://localhost:3000');
+
+  useEffect(() => {
+    localStorage.setItem('role', 'teacher');
+  }, []);
 
   if (!socket) return <></>;
 
