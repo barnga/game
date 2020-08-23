@@ -4,18 +4,10 @@ import { SocketContext } from '../contexts/Contexts';
 
 const Leaderboard = () => {
   const { socket } = useContext(SocketContext) || {};
-  const [roomNumber, setRoomNumber] = useState(0);
+  const [roomNumber, setRoomNumber] = useState(null);
 
   useEffect(() => {
-    socket.emit('joined game', ({ rooms }) => {
-      console.log(socket.id);
-      const id = Object.entries(rooms).filter((room) => room[1].includes(socket.id))[0];
-      const number = Object.keys(rooms).indexOf(id);
-      console.log(rooms);
-      console.log(id);
-      console.log(number);
-      setRoomNumber(number);
-    });
+    socket.emit('joined game', (data) => setRoomNumber(data.roomNumber));
   }, []);
 
   return (
