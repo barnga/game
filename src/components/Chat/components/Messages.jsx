@@ -7,10 +7,18 @@ const Messages = () => {
   const [gameSettings, setGameSettings] = gameState || [];
 
   useEffect(() => {
+    let subscribed = true;
+
     socket.on('messages update', (message) => {
-      console.log(message);
-      setGameSettings((settings) => ({ ...settings, messages: settings.messages.concat(message) }));
+      if (subscribed) {
+        setGameSettings((settings) => ({
+          ...settings,
+          messages: settings.messages.concat(message),
+        }));
+      }
     });
+
+    return () => (subscribed = false);
   }, []);
 
   if (gameSettings.messages?.length === 0) return <div>No messages</div>;

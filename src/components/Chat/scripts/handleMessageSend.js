@@ -1,6 +1,3 @@
-const handleMessageSend = (socket, values) => {
-  console.log(values);
-  socket.emit('new message', values.message);
-};
+const handleMessageSend = (socket, values) => socket.emit('new message', values.message);
 
 export default handleMessageSend;

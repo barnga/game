@@ -11,13 +11,19 @@ const PlayerGameView = () => {
   const [gameSettings, setGameSettings] = gameState || [];
 
   useEffect(() => {
+    let subscribed = true;
+
     socket.emit('joined room', (data) => {
-      setGameSettings((settings) => ({
-        ...settings,
-        roomNumber: data.roomNumber,
-        messages: [],
-      }));
+      if (subscribed) {
+        setGameSettings((settings) => ({
+          ...settings,
+          roomNumber: data.roomNumber,
+          messages: [],
+        }));
+      }
     });
+
+    return () => (subscribed = false);
   }, []);
 
   if (!socket) {

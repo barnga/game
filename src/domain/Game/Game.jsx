@@ -23,22 +23,24 @@ const Game = ({ history, location }) => {
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   useEffect(() => {
+    if (socket) {
+      socket.on('redirect to join', () => {
+        history.push('/play');
+      });
+      socket.on('404', () => {
+        history.push('/notfound');
+      });
+      socket.on('200', () => setIsLoaded(true));
+      socket.on('game started', () => setIsGameStarted(true));
+    }
+  }, [socket]);
+
+  useEffect(() => {
     setGameSettings((settings) => ({
       ...settings,
       isTeacher: location.state?.isTeacher || false,
     }));
   }, [location]);
-
-  if (socket) {
-    socket.on('redirect to join', () => {
-      history.push('/play');
-    });
-    socket.on('404', () => {
-      history.push('/notfound');
-    });
-    socket.on('200', () => setIsLoaded(true));
-    socket.on('game started', () => setIsGameStarted(true));
-  }
 
   if (!isLoaded) {
     return (

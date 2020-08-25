@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { SocketContext } from '../contexts/Contexts';
 import Player from './Player';
 import Svg from './Svg';
@@ -8,10 +8,18 @@ const Players = () => {
   const { socket } = useContext(SocketContext) || {};
   const [players, setPlayers] = useState([]);
 
-  // TODO: Wrap all socket events in useEffect for cleanup
-  if (socket) {
-    socket.on('player update', (allPlayers) => setPlayers(allPlayers));
-  }
+  useEffect(() => {
+    let subscribed = true;
+
+    socket.emit('player loaded');
+    socket.on('player update', (allPlayers) => {
+      if (subscribed) {
+        setPlayers(allPlayers);
+      }
+    });
+
+    return () => (subscribed = false);
+  }, []);
 
   if (players.length === 0) {
     return (
