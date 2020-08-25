@@ -7,7 +7,7 @@ const Chat = () => (
   <Card className="d-flex flex-grow-1 m-0">
     <Card.Body className="d-flex flex-column">
       <Card.Title>Chat</Card.Title>
-      <div className="d-flex flex-grow-1 align-items-end w-100">
+      <div className="d-flex flex-column flex-grow-1 w-100">
         <Messages />
         <ChatForm />
       </div>
