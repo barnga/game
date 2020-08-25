@@ -8,6 +8,7 @@ const Players = () => {
   const { socket } = useContext(SocketContext) || {};
   const [players, setPlayers] = useState([]);
 
+  // TODO: Wrap all socket events in useEffect for cleanup
   if (socket) {
     socket.on('player update', (allPlayers) => setPlayers(allPlayers));
   }

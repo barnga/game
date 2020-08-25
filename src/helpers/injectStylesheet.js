@@ -1,6 +1,6 @@
 const insertStylesheet = (callback) => {
   const link = document.createElement('link');
-  link.href = `/css/theme.css`;
+  link.href = '/css/theme.css';
   link.type = 'text/css';
   link.rel = 'stylesheet';
   link.className = 'theme-stylesheet';

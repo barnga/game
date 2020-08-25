@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import Chat from '../../../components/Chat';
+import Chat from '../../../components/Chat/Chat';
 import Leaderboard from '../../../components/Leaderboard';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import GameCanvas from '../../../components/GameCanvas';
@@ -11,8 +11,12 @@ const PlayerGameView = () => {
   const [gameSettings, setGameSettings] = gameState || [];
 
   useEffect(() => {
-    socket.emit('joined game', (data) => {
-      setGameSettings((settings) => ({ ...settings, roomNumber: data.roomNumber }));
+    socket.emit('joined room', (data) => {
+      setGameSettings((settings) => ({
+        ...settings,
+        roomNumber: data.roomNumber,
+        messages: [],
+      }));
     });
   }, []);
 
@@ -21,13 +25,13 @@ const PlayerGameView = () => {
   }
 
   return (
-    <Container className="min-vh-100 d-flex flex-column justify-content-center">
-      <Row>
-        <Col className="col-3">
-          <Chat />
+    <Container fluid className="min-vh-100 d-flex flex-column justify-content-center p-0 m-0">
+      <Row className="min-vh-100 m-0 p-5">
+        <Col className="d-flex flex-column col-12 col-lg-3">
           <Leaderboard />
+          <Chat />
         </Col>
-        <Col className="col-9">
+        <Col className="col-12 col-lg-9">
           <GameCanvas />
         </Col>
       </Row>
