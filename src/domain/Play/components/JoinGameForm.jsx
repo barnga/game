@@ -38,7 +38,7 @@ const JoinGameForm = ({ history }) => {
         </div>
         <div className="form-group">
           <label className="form-control-label">Name</label>
-          <Field name="nickname" className="form-control" placeholder="John Doe" autoComplete="off" />
+          <Field name="nickname" className="form-control" placeholder="Peter Redstone" autoComplete="off" />
         </div>
         <div className="form-group">
           <Button block variant="primary" type="submit">Play</Button>
