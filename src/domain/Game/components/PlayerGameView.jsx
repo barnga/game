@@ -13,7 +13,7 @@ const PlayerGameView = () => {
   useEffect(() => {
     let subscribed = true;
 
-    socket.emit('joined room', (data) => {
+    const handleRoomJoin = (data) => {
       if (subscribed) {
         setGameSettings((settings) => ({
           ...settings,
@@ -21,9 +21,14 @@ const PlayerGameView = () => {
           messages: [],
         }));
       }
-    });
+    };
 
-    return () => (subscribed = false);
+    socket.emit('joined room', handleRoomJoin);
+
+    return () => {
+      subscribed = false;
+      socket.off('joined room', handleRoomJoin);
+    };
   }, []);
 
   if (!socket) {

@@ -23,16 +23,26 @@ const Game = ({ history, location }) => {
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   useEffect(() => {
+    const handleJoin = () => history.push('/play');
+    const handleGameNotFound = () => history.push('/notfound');
+    const handleGameFound = () => setIsLoaded(true);
+    const handleGameStart = () => setIsGameStarted(true);
+
     if (socket) {
-      socket.on('redirect to join', () => {
-        history.push('/play');
-      });
-      socket.on('404', () => {
-        history.push('/notfound');
-      });
-      socket.on('200', () => setIsLoaded(true));
-      socket.on('game started', () => setIsGameStarted(true));
+      socket.on('redirect to join', handleJoin);
+      socket.on('404', handleGameNotFound);
+      socket.on('200', handleGameFound);
+      socket.on('game started', handleGameStart);
     }
+
+    return () => {
+      if (socket) {
+        socket.off('redirect to join', handleJoin);
+        socket.off('404', handleGameNotFound);
+        socket.off('200', handleGameFound);
+        socket.off('game started', handleGameStart);
+      }
+    };
   }, [socket]);
 
   useEffect(() => {

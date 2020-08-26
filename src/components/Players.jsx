@@ -6,19 +6,24 @@ import gamepad from '../assets/img/icons/theme/devices/gamepad-2.svg';
 
 const Players = () => {
   const { socket } = useContext(SocketContext) || {};
+  // TODO: Use GameContext instead of local variable
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
     let subscribed = true;
 
-    socket.emit('player loaded');
-    socket.on('player update', (allPlayers) => {
+    const handlePlayerUpdate = (allPlayers) => {
       if (subscribed) {
         setPlayers(allPlayers);
       }
-    });
+    };
+    socket.emit('player loaded');
+    socket.on('player update', handlePlayerUpdate);
 
-    return () => (subscribed = false);
+    return () => {
+      subscribed = false;
+      socket.off('player update', handlePlayerUpdate);
+    };
   }, []);
 
   if (players.length === 0) {

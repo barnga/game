@@ -11,16 +11,21 @@ const Messages = () => {
   useEffect(() => {
     let subscribed = true;
 
-    socket.on('messages update', (message) => {
+    const handleMessagesUpdate = (message) => {
       if (subscribed) {
         setGameSettings((settings) => ({
           ...settings,
           messages: settings.messages.concat(message),
         }));
       }
-    });
+    };
 
-    return () => (subscribed = false);
+    socket.on('messages update', handleMessagesUpdate);
+
+    return () => {
+      subscribed = false;
+      socket.off('messages update', handleMessagesUpdate);
+    };
   }, []);
 
   if (gameSettings.messages?.length === 0) {
