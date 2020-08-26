@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, getIn } from 'formik';
 import { Alert, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -7,6 +7,8 @@ import withSocket from '../../../hocs/withSocket';
 import { SocketContext } from '../../../contexts/Contexts';
 import useNamespace from '../../../hooks/useNamespace';
 import handleJoinGame from '../scripts/handleJoinGame';
+import JoinGameSchema from '../../../schemas/JoinGameSchema';
+import setFieldError from "../../../helpers/setFieldError";
 
 const JoinGameForm = ({ history }) => {
   const { socket } = useContext(SocketContext) || {};
@@ -25,25 +27,38 @@ const JoinGameForm = ({ history }) => {
         handleJoinGame({ values, socket, history })
           .then((success) => setShowError(!success));
       }}
+      validationSchema={JoinGameSchema}
     >
-      <Form>
-        {showError && (
-          <Alert variant="danger" onClose={() => setShowError(false)} dismissible>
-            We could not find a game with that code.
-          </Alert>
-        )}
-        <div className="form-group">
-          <label className="form-control-label">Game code</label>
-          <Field name="gameId" className="form-control" placeholder="Game code" autoComplete="off" />
-        </div>
-        <div className="form-group">
-          <label className="form-control-label">Name</label>
-          <Field name="nickname" className="form-control" placeholder="Peter Redstone" autoComplete="off" />
-        </div>
-        <div className="form-group">
-          <Button block variant="primary" type="submit">Play</Button>
-        </div>
-      </Form>
+      {(props) => (
+        <Form>
+          {showError && (
+            <Alert variant="danger" onClose={() => setShowError(false)} dismissible>
+              We could not find a game with that code.
+            </Alert>
+          )}
+          <div className="form-group">
+            <label className="form-control-label">Game code</label>
+            <Field
+              name="gameId"
+              placeholder="mjckdl"
+              autoComplete="off"
+              className={setFieldError({ props, fieldName: 'gameId' })}
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-control-label">Name</label>
+            <Field
+              name="nickname"
+              placeholder="Peter Redstone"
+              autoComplete="off"
+              className={setFieldError({ props, fieldName: 'nickname' })}
+            />
+          </div>
+          <div className="form-group">
+            <Button block variant="primary" type="submit">Play</Button>
+          </div>
+        </Form>
+      )}
     </Formik>
   );
 };
