@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Field, Form, Formik, getIn } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { Alert, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -8,7 +8,7 @@ import { SocketContext } from '../../../contexts/Contexts';
 import useNamespace from '../../../hooks/useNamespace';
 import handleJoinGame from '../scripts/handleJoinGame';
 import JoinGameSchema from '../../../schemas/JoinGameSchema';
-import setFieldError from "../../../helpers/setFieldError";
+import setFieldError from '../../../helpers/setFieldError';
 
 const JoinGameForm = ({ history }) => {
   const { socket } = useContext(SocketContext) || {};
