@@ -28,7 +28,7 @@ const CreateGameForm = ({ history }) => {
           <Field name="timeLimit" className="form-control" placeholder="5 minutes" autoComplete="off" />
         </div>
         <div className="form-group">
-          <Button block variant="primary" type="submit">Create game</Button>
+          <Button block variant="primary" type="submit">Create</Button>
         </div>
       </Form>
     </Formik>
