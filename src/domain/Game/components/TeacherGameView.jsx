@@ -1,9 +1,13 @@
 import React, { useContext, useEffect } from 'react';
-import { Card, Container } from 'react-bootstrap';
+import {
+  Card, Col, Container, Row,
+} from 'react-bootstrap';
+import { useParams } from 'react-router';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import Loading from '../../../components/Loading';
 
 const TeacherGameView = () => {
+  const { gameId } = useParams();
   const { socket } = useContext(SocketContext);
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
@@ -25,10 +29,6 @@ const TeacherGameView = () => {
     return () => (subscribed = false);
   }, []);
 
-  useEffect(() => {
-    console.log(gameSettings);
-  }, [gameSettings]);
-
   if (!gameSettings.rooms) {
     return (
       <Container>
@@ -40,19 +40,23 @@ const TeacherGameView = () => {
 
   return (
     <Container>
-      <div>Teacher view</div>
-      {gameSettings.rooms?.map((room, idx) => (
-        <Card key={room.roomId}>
-          <Card.Body>
-            <Card.Title>Group {idx + 1}</Card.Title>
-            <Card.Text>
-              {room.players.map((player) => (
-                <h6 key={player.sessionId}>{player.nickname}</h6>
-              ))}
-            </Card.Text>
-          </Card.Body>
-        </Card>
-      ))}
+      <Row className="p-2 pt-5">
+        <p className="h1">Game ID: {gameId}</p>
+      </Row>
+      <Row>
+        {gameSettings.rooms?.map((room, idx) => (
+          <Col className="col-4 mb-3">
+            <Card key={room.roomId} className="h-100">
+              <Card.Body>
+                <Card.Title>Group {idx + 1}</Card.Title>
+                {room.players.map((player) => (
+                  <h6 key={player.sessionId}>{player.nickname}</h6>
+                ))}
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </Container>
   );
 };
