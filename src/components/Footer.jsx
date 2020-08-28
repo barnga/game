@@ -9,6 +9,7 @@ import marker1 from '../assets/img/icons/theme/map/marker-1.svg';
 import call1 from '../assets/img/icons/theme/communication/call-1.svg';
 import mail from '../assets/img/icons/theme/communication/mail.svg';
 import Svg from './Svg';
+import navItems from '../data/NavbarData';
 
 const Footer = () => (
   <footer className="pb-4 bg-primary-3 text-light" id="footer">
@@ -39,15 +40,13 @@ const Footer = () => (
             <li className="nav-item">
               <Link to="/" className="nav-link">Home</Link>
             </li>
-            <li className="nav-item">
-              <Link to="/about" className="nav-link">About</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/create" className="nav-link">Create Game</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/play" className="nav-link">Play</Link>
-            </li>
+            {navItems.map((navItem) => (
+              <li className="nav-item" key={navItem.name}>
+                <Link to={navItem.to} className="nav-link">
+                  {navItem.name}
+                </Link>
+              </li>
+            ))}
           </ul>
         </Col>
         <Col className="col-6 col-lg">

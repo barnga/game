@@ -41,7 +41,7 @@ const Splash = () => (
             <LinkContainer to="/play">
               <Button className="btn btn-lg btn-white mx-1">Play Now</Button>
             </LinkContainer>
-            <Link to="/about">
+            <Link to="/guide">
               <Button className="btn btn-lg btn-dark mx-1">How to Play</Button>
             </Link>
           </Col>

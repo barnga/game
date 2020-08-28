@@ -4,6 +4,10 @@ const navItems = [
     to: '/about',
   },
   {
+    name: 'How to Play',
+    to: '/guide',
+  },
+  {
     name: 'Create Game',
     to: '/create',
   },
