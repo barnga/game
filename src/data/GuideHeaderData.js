@@ -1,5 +1,5 @@
-const headerData = {
+const guideHeaderData = {
   title: 'How to Play',
 };
 
-export default headerData;
+export default guideHeaderData;

@@ -7,7 +7,9 @@ const Svg = ({ src, classNames }) => (
     src={src}
     beforeInjection={(svg) => {
       if (classNames) {
-        svg.classList.add(classNames);
+        classNames.split(' ').forEach((name) => {
+          svg.classList.add(name);
+        });
       }
     }}
   />

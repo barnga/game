@@ -34,8 +34,8 @@ const Splash = () => (
             </h1>
             <div className="mb-4">
               <p className="lead px-xl-5">
-                Barnga allows you to educate others about culture, communication,
-                and teamwork in a simple card game.
+                Barnga brings about social and interpersonal understanding
+                by removing our most popular method of communication: language.
               </p>
             </div>
             <LinkContainer to="/play">
