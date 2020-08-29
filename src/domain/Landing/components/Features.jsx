@@ -2,7 +2,6 @@ import React from 'react';
 import smile from '../../../assets/img/icons/theme/general/smile.svg';
 import tools from '../../../assets/img/icons/theme/tools/tools.svg';
 import thundermove from '../../../assets/img/icons/theme/general/thunder-move.svg';
-
 import Svg from '../../../components/Svg';
 
 const Features = () => (
@@ -22,7 +21,7 @@ const Features = () => (
               Barnga can be used as a group activity in any setting,
               whether it&apos;s for school or for work.
               Any number of people can join a game, which means that everyone
-              can play while keeping socially distanced.
+              can play while maintaining social distance.
             </div>
           </div>
         </div>
@@ -33,7 +32,7 @@ const Features = () => (
             <div>
               Game facilitators can easily adjust game
               settings, such as the number of players per group,
-              time limits, and more. Facilitators can also update rulesheets
+              time limits, and more. Facilitators can also update rule sheets
               in realtime, which was impossible when playing the physical game.
             </div>
           </div>
