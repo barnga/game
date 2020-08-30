@@ -1,4 +1,5 @@
 import React from 'react';
+import steven from '../../../assets/img/team/steven.jpg';
 
 const Team = () => (
   <section>
@@ -17,14 +18,14 @@ const Team = () => (
           </div>
         </div>
         <div className="col-sm-6 col-lg-4 d-flex align-items-center mb-5">
-          <img src="" alt="Andrea Souzakis" className="avatar avatar-xlg mr-3" />
+          <img src="" alt="Dylan Marchlinski" className="avatar avatar-xlg mr-3" />
           <div>
             <h5 className="mb-0">Dylan Marchlinski</h5>
             <p>Developer</p>
           </div>
         </div>
         <div className="col-sm-6 col-lg-4 d-flex align-items-center mb-5">
-          <img src="" alt="Anil Bhaktar" className="avatar avatar-xlg mr-3" />
+          <img src="" alt="Avinesh Sriram" className="avatar avatar-xlg mr-3" />
           <div>
             <h5 className="mb-0">Avinesh Sriram</h5>
             <p>Frontend Developer and Content Writer</p>
@@ -38,7 +39,7 @@ const Team = () => (
           </div>
         </div>
         <div className="col-sm-6 col-lg-4 d-flex align-items-center mb-5">
-          <img src="" alt="Steven Pu" className="avatar avatar-xlg mr-3" />
+          <img src={steven} alt="Steven Pu" className="avatar avatar-xlg mr-3" />
           <div>
             <h5 className="mb-0">Steven Pu</h5>
             <p>Creative Design</p>
