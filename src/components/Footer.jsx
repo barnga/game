@@ -20,7 +20,7 @@ const Footer = () => (
             <div
               className="position-relative d-flex flex-column flex-md-row justify-content-between align-items-center"
             >
-              <div className="h3 text-center mb-md-0">Start building beautiful websites</div>
+              <div className="h3 text-center mb-md-0">Start playing Barnga online</div>
               <LinkContainer to="/play">
                 <Button variant="white" size="lg">
                   Play Now
