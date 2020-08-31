@@ -10,30 +10,30 @@ const PlayerGameView = () => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
 
-  useEffect(() => {
-    let subscribed = true;
-
-    const handleRoomJoin = (data) => {
-      if (subscribed) {
-        setGameSettings((settings) => ({
-          ...settings,
-          roomNumber: data.roomNumber,
-          messages: [],
-        }));
-      }
-    };
-
-    socket.emit('joined room', handleRoomJoin);
-
-    return () => {
-      subscribed = false;
-      socket.off('joined room', handleRoomJoin);
-    };
-  }, []);
-
-  if (!socket) {
-    return <></>;
-  }
+  // useEffect(() => {
+  //   let subscribed = true;
+  //
+  //   const handleRoomJoin = (data) => {
+  //     if (subscribed) {
+  //       setGameSettings((settings) => ({
+  //         ...settings,
+  //         roomNumber: data.roomNumber,
+  //         messages: [],
+  //       }));
+  //     }
+  //   };
+  //
+  //   socket.emit('joined room', handleRoomJoin);
+  //
+  //   return () => {
+  //     subscribed = false;
+  //     socket.off('joined room', handleRoomJoin);
+  //   };
+  // }, []);
+  //
+  // if (!socket) {
+  //   return <></>;
+  // }
 
   return (
     <Container fluid className="min-vh-100 d-flex flex-column justify-content-center p-0 m-0">
