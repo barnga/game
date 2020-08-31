@@ -14,7 +14,13 @@ const Mission = () => (
               <div className="my-3">
                 <span className="h1">Facilitate intercultural understanding.</span>
               </div>
-              <p className="lead">We began developing the Barnga Project as part of the 2019 Mozilla Sprint for Internet Health. The result is a digital and easily accessible version of the Barnga card game. Our hope is for the Barnga Project to be a tool used in the study of interpersonal communication.</p>
+              <p className="lead">
+                We began developing the Barnga Project as part of the 2019
+                Mozilla Sprint for Internet Health. The result is
+                a digital and easily accessible version
+                of the Barnga card game. Our hope is for the Barnga Project to be a
+                tool used in the study of interpersonal communication.
+              </p>
             </div>
           </div>
         </div>
