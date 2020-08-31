@@ -1,28 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Image, Layer, Rect, Stage,
+  Image, Layer, Rect, Stage, Text,
 } from 'react-konva';
 import useImage from 'use-image';
 
-const GameCanvas = () => {
-  // <canvas className="h-100 w-100 mt-2 mt-lg-0 />
-
-  const cards = ['CLUB-1', 'CLUB-2', 'CLUB-3', 'ClUB-5'];
+const GameCanvas = ({ containerRef }) => {
+  const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
+  const cards = ['CLUB-1', 'CLUB-2', 'CLUB-3', 'CLUB-2'];
   const cardImages = cards.map((card) => {
     const [image] = useImage(`http://localhost:7000/public/assets/cards/${card}.svg`);
     return image;
   });
-  const canvasHeight = 500;
-  const canvasWidth = 700;
-  const cardHeight = 150;
+  const cardHeight = canvasDimensions.height / 4;
   const cardWidth = cardHeight / 1.4;
-  const offsetX = ((canvasWidth / 2) - ((cardImages.length * cardWidth) / 2));
-  const offsetY = (canvasHeight - cardHeight) - 20;
+
+  const offsetX = ((canvasDimensions.width / 2) - (((cardImages.length + 1) * 30) / 2));
+  const offsetY = (canvasDimensions.height - cardHeight) - 20;
+
+  useEffect(() => {
+    const setDimensions = () => {
+      setCanvasDimensions({
+        height: containerRef?.current?.offsetHeight,
+        width: containerRef?.current?.offsetWidth,
+      });
+    };
+
+    setDimensions();
+    window.addEventListener('resize', setDimensions);
+
+    return () => {
+      window.removeEventListener('resize', setDimensions);
+    };
+  }, []);
 
   return (
-    <Stage width={canvasWidth} height={canvasHeight}>
+    <Stage width={canvasDimensions.width} height={canvasDimensions.height}>
       <Layer>
-        <Rect fill="black" top={0} left={0} height={900} width={900} />
+        <Rect fill="#f3f3f3" top={0} left={0} height={canvasDimensions.height} width={canvasDimensions.width} />
+      </Layer>
+      <Layer
+        x={(canvasDimensions.width / 2) - (300 / 2)}
+        y={(canvasDimensions.height / 2) - (100 / 2)}
+      >
+        <Rect
+          fill="#dddddd"
+          draggable
+          height={100}
+          width={300}
+        />
+        <Text text="Play area" verticalAlign="middle" align="center" height={100} width={300} />
       </Layer>
       <Layer x={offsetX} y={offsetY}>
         {cardImages.map((card, idx) => (
@@ -31,9 +57,8 @@ const GameCanvas = () => {
             image={card}
             height={cardHeight}
             width={cardWidth}
-            x={idx * cardWidth}
-            shadowColor="blue"
-            shadowEnabled
+            x={idx * 30}
+            stroke="black"
           />
         ))}
       </Layer>
