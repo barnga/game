@@ -3,11 +3,13 @@ import {
   Image, Layer, Rect, Stage, Text,
 } from 'react-konva';
 import useImage from 'use-image';
+import PropTypes from 'prop-types';
 
 const GameCanvas = ({ containerRef }) => {
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
   const cards = ['CLUB-1', 'CLUB-2', 'CLUB-3', 'CLUB-2'];
   const cardImages = cards.map((card) => {
+    // TODO: Get base url from .env
     const [image] = useImage(`http://localhost:7000/public/assets/cards/${card}.svg`);
     return image;
   });
@@ -64,6 +66,10 @@ const GameCanvas = ({ containerRef }) => {
       </Layer>
     </Stage>
   );
+};
+
+GameCanvas.propTypes = {
+  containerRef: PropTypes.any,
 };
 
 export default GameCanvas;

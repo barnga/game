@@ -22,51 +22,51 @@ const Game = ({ history, location }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
-  // useEffect(() => {
-  //   const handleJoin = () => history.push('/play');
-  //   const handleGameNotFound = () => history.push('/notfound');
-  //   const handleGameFound = () => setIsLoaded(true);
-  //   const handleGameStart = () => setIsGameStarted(true);
-  //
-  //   if (socket) {
-  //     socket.on('redirect to join', handleJoin);
-  //     socket.on('404', handleGameNotFound);
-  //     socket.on('200', handleGameFound);
-  //     socket.on('game started', handleGameStart);
-  //   }
-  //
-  //   return () => {
-  //     if (socket) {
-  //       socket.off('redirect to join', handleJoin);
-  //       socket.off('404', handleGameNotFound);
-  //       socket.off('200', handleGameFound);
-  //       socket.off('game started', handleGameStart);
-  //     }
-  //   };
-  // }, [socket]);
-  //
-  // useEffect(() => {
-  //   setGameSettings((settings) => ({
-  //     ...settings,
-  //     isTeacher: location.state?.isTeacher || false,
-  //   }));
-  // }, [location]);
-  //
-  // if (!isLoaded) {
-  //   return (
-  //     <Container className="d-flex min-vh-100 align-items-center justify-content-center">
-  //       <Loading />
-  //     </Container>
-  //   );
-  // }
-  //
-  // if (!isGameStarted) {
-  //   return <WaitingRoom />;
-  // }
-  //
-  // if (isTeacher) {
-  //   return <TeacherGameView />;
-  // }
+  useEffect(() => {
+    const handleJoin = () => history.push('/play');
+    const handleGameNotFound = () => history.push('/notfound');
+    const handleGameFound = () => setIsLoaded(true);
+    const handleGameStart = () => setIsGameStarted(true);
+
+    if (socket) {
+      socket.on('redirect to join', handleJoin);
+      socket.on('404', handleGameNotFound);
+      socket.on('200', handleGameFound);
+      socket.on('game started', handleGameStart);
+    }
+
+    return () => {
+      if (socket) {
+        socket.off('redirect to join', handleJoin);
+        socket.off('404', handleGameNotFound);
+        socket.off('200', handleGameFound);
+        socket.off('game started', handleGameStart);
+      }
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    setGameSettings((settings) => ({
+      ...settings,
+      isTeacher: location.state?.isTeacher || false,
+    }));
+  }, [location]);
+
+  if (!isLoaded) {
+    return (
+      <Container className="d-flex min-vh-100 align-items-center justify-content-center">
+        <Loading />
+      </Container>
+    );
+  }
+
+  if (!isGameStarted) {
+    return <WaitingRoom />;
+  }
+
+  if (isTeacher) {
+    return <TeacherGameView />;
+  }
 
   return <PlayerGameView />;
 };
