@@ -5,7 +5,7 @@ import Leaderboard from '../../../components/Leaderboard';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import GameCanvas from '../../../components/GameCanvas';
 import GameButtons from '../../../components/GameButtons';
-import Rulesheet from '../../../components/Rulesheet';
+import Rulesheet from '../../../components/Rulesheet/Rulesheet';
 
 const PlayerGameView = () => {
   const { socket } = useContext(SocketContext) || {};
