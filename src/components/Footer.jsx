@@ -9,7 +9,7 @@ import marker1 from '../assets/img/icons/theme/map/marker-1.svg';
 import call1 from '../assets/img/icons/theme/communication/call-1.svg';
 import mail from '../assets/img/icons/theme/communication/mail.svg';
 import Svg from './Svg';
-import navItems from '../data/NavbarData';
+import navItems from '../data/navItems';
 
 const Footer = () => (
   <footer className="pb-4 bg-primary-3 text-light" id="footer">

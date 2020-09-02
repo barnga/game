@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import Chat from '../../../components/Chat/Chat';
 import Leaderboard from '../../../components/Leaderboard';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
-import GameCanvas from '../../../components/GameCanvas';
+import GameCanvas from '../../../components/GameCanvas/GameCanvas';
 import GameButtons from '../../../components/GameButtons';
 import Rulesheet from '../../../components/Rulesheet/Rulesheet';
 

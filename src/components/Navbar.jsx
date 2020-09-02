@@ -6,7 +6,7 @@ import { useLocation } from 'react-router';
 import logoWhite from '../assets/img/logo-white.svg';
 import logoDark from '../assets/img/logo.svg';
 import Svg from './Svg';
-import navItems from '../data/NavbarData';
+import navItems from '../data/navItems';
 
 const Navbar = () => {
   const location = useLocation();

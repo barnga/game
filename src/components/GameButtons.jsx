@@ -11,7 +11,10 @@ const GameButtons = () => {
       <Button
         block
         variant="outline-primary"
-        onClick={() => setGameSettings((settings) => ({ ...settings, showRules: true }))}
+        onClick={() => setGameSettings((settings) => ({
+          ...settings,
+          showRules: true
+        }))}
       >
         <span>Rules</span>
       </Button>
