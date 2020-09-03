@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Image, Layer, Rect, Stage, Text,
 } from 'react-konva';
 import useImage from 'use-image';
 import PropTypes from 'prop-types';
+import { GameContext } from '../../contexts/Contexts';
 
 const GameCanvas = ({ containerRef }) => {
+  const { gameState } = useContext(GameContext);
+  const [gameSettings] = gameState || [];
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
-  const cards = ['CLUB-1', 'CLUB-2', 'CLUB-3', 'CLUB-2'];
-  const cardImages = cards.map((card) => {
-    // TODO: Get base url from .env
-    const [image] = useImage(`http://localhost:7000/public/assets/cards/${card}.svg`);
-    return image;
-  });
-  const cardHeight = canvasDimensions.height / 4;
-  const cardWidth = cardHeight / 1.4;
-
-  const offsetX = ((canvasDimensions.width / 2) - (((cardImages.length + 1) * 30) / 2));
-  const offsetY = (canvasDimensions.height - cardHeight) - 20;
 
   useEffect(() => {
     const setDimensions = () => {
@@ -34,6 +26,19 @@ const GameCanvas = ({ containerRef }) => {
       window.removeEventListener('resize', setDimensions);
     };
   }, []);
+
+  const cardImages = gameSettings.hand.map((card) => {
+    // TODO: Get base url from .env
+    const [image] = useImage(`http://localhost:7000/public/assets/cards/${card}.svg`);
+    return image;
+  });
+  const cardHeight = canvasDimensions.height / 4;
+  const cardWidth = cardHeight / 1.4;
+
+  const offsetX = ((canvasDimensions.width / 2) - (((cardImages.length + 1) * 30) / 2));
+  const offsetY = (canvasDimensions.height - cardHeight) - 20;
+
+  if (!cardImages) return <></>;
 
   return (
     <Stage width={canvasDimensions.width} height={canvasDimensions.height}>

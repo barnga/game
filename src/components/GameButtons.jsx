@@ -13,7 +13,7 @@ const GameButtons = () => {
         variant="outline-primary"
         onClick={() => setGameSettings((settings) => ({
           ...settings,
-          showRules: true
+          showRules: true,
         }))}
       >
         <span>Rules</span>

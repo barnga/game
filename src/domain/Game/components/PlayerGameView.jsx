@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import Chat from '../../../components/Chat/Chat';
 import Leaderboard from '../../../components/Leaderboard';
@@ -11,6 +13,8 @@ const PlayerGameView = () => {
   const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
+
+  const [isGameLoaded, setIsGameLoaded] = useState(false);
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -24,7 +28,9 @@ const PlayerGameView = () => {
           messages: [],
           showRules: true,
           rulesheetId: data.rulesheetId,
+          hand: data.hand,
         }));
+        setIsGameLoaded(true);
       }
     };
 
@@ -36,7 +42,7 @@ const PlayerGameView = () => {
     };
   }, []);
 
-  if (!socket) {
+  if (!isGameLoaded) {
     return <></>;
   }
 
