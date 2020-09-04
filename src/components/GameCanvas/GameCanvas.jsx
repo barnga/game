@@ -1,15 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useContext, useEffect, useState, useRef,
+} from 'react';
 import {
   Image, Layer, Rect, Stage, Text,
 } from 'react-konva';
 import useImage from 'use-image';
 import PropTypes from 'prop-types';
-import { GameContext } from '../../contexts/Contexts';
+import { GameContext, SocketContext } from '../../contexts/Contexts';
+import DrawingBoard from './components/DrawingBoard';
 
-const GameCanvas = ({ containerRef }) => {
-  const { gameState } = useContext(GameContext);
+const GameCanvas = ({ containerRef, brushColorRef }) => {
+  const { gameState } = useContext(GameContext) || {};
+  const { socket } = useContext(SocketContext) || {};
   const [gameSettings] = gameState || [];
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
+  const stageRef = useRef();
 
   useEffect(() => {
     const setDimensions = () => {
@@ -41,7 +46,7 @@ const GameCanvas = ({ containerRef }) => {
   if (!cardImages) return <></>;
 
   return (
-    <Stage width={canvasDimensions.width} height={canvasDimensions.height}>
+    <Stage width={canvasDimensions.width} height={canvasDimensions.height} ref={stageRef}>
       <Layer>
         <Rect fill="#f3f3f3" top={0} left={0} height={canvasDimensions.height} width={canvasDimensions.width} />
       </Layer>
@@ -56,6 +61,15 @@ const GameCanvas = ({ containerRef }) => {
           width={300}
         />
         <Text text="Play area" verticalAlign="middle" align="center" height={100} width={300} />
+      </Layer>
+      <Layer>
+        <DrawingBoard
+          containerRef={containerRef}
+          stageRef={stageRef}
+          socket={socket}
+          gameState={gameState}
+          colorRef={brushColorRef}
+        />
       </Layer>
       <Layer x={offsetX} y={offsetY}>
         {cardImages.map((card, idx) => (
@@ -75,6 +89,7 @@ const GameCanvas = ({ containerRef }) => {
 
 GameCanvas.propTypes = {
   containerRef: PropTypes.any,
+  brushColorRef: PropTypes.any,
 };
 
 export default GameCanvas;

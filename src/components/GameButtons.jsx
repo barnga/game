@@ -18,9 +18,6 @@ const GameButtons = () => {
       >
         <span>Rules</span>
       </Button>
-      <Button block variant="outline-primary">
-        <span>Drawing Board</span>
-      </Button>
     </div>
   );
 };

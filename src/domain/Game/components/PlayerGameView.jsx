@@ -1,7 +1,10 @@
 import React, {
   useContext, useEffect, useRef, useState,
 } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import {
+  Col, Container, Row, Button,
+} from 'react-bootstrap';
+import { SliderPicker } from 'react-color';
 import Chat from '../../../components/Chat/Chat';
 import Leaderboard from '../../../components/Leaderboard';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
@@ -13,6 +16,7 @@ const PlayerGameView = () => {
   const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
+  const brushColor = useRef('#000000');
 
   const [isGameLoaded, setIsGameLoaded] = useState(false);
   const containerRef = useRef(null);
@@ -26,6 +30,7 @@ const PlayerGameView = () => {
           ...settings,
           roomNumber: data.roomNumber,
           messages: [],
+          strokes: {},
           showRules: true,
           rulesheetId: data.rulesheetId,
           hand: data.hand,
@@ -56,8 +61,28 @@ const PlayerGameView = () => {
             <Leaderboard />
             <Chat />
           </Col>
-          <Col className="col-12 col-lg-9" ref={containerRef}>
-            <GameCanvas containerRef={containerRef} />
+          <Col className="col-12 col-lg-9">
+            <Row className="min-vh-90" ref={containerRef}>
+              <Col className="col-12 col-lg-9">
+                <GameCanvas containerRef={containerRef} brushColorRef={brushColor} />
+              </Col>
+            </Row>
+            <Row className="min-vh-10">
+              <Col className="col-12 col-lg-9">
+                <SliderPicker color="#000000" onChange={(color) => brushColor.current = color.hex} className="my-2 w-100" />
+                <Button
+                  block
+                  variant="outline-primary"
+                  onClick={() => {
+                    setGameSettings((settings) => ({
+                      ...settings,
+                      strokes: {},
+                    }));
+                  }}
+                >Clear
+                </Button>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Container>
