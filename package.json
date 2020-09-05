@@ -47,7 +47,6 @@
     "react-router-dom": "^5.2.0",
     "react-svg": "^11.0.35",
     "socket.io-client": "^2.3.0",
-    "use-image": "^1.0.6",
     "yup": "^0.29.3"
   }
 }
