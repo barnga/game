@@ -30,6 +30,7 @@ const PlayerGameView = () => {
           ...settings,
           players: data.players,
           playedCards: data.playedCards,
+          turn: data.turn,
           hand: data.players[localStorage.sessionId].hand,
         }));
       }
@@ -40,11 +41,12 @@ const PlayerGameView = () => {
         setGameSettings((settings) => ({
           ...settings,
           roomNumber: data.roomNumber,
+          rulesheetId: data.rulesheetId,
+          hand: data.hand,
+          turn: data.turn,
           messages: [],
           strokes: {},
           showRules: true,
-          rulesheetId: data.rulesheetId,
-          hand: data.hand,
         }));
         setIsGameLoaded(true);
       }

@@ -36,7 +36,13 @@ const Hand = ({ socket, gameState, canvasDimensions }) => {
             x={idx * 30}
             stroke="black"
             key={parsedCardName}
-            onClick={() => handlePlayCard(socket, parsedCardName)}
+            onClick={() => {
+              if (gameSettings.turn === localStorage.sessionId) {
+                handlePlayCard(socket, parsedCardName);
+              } else {
+                console.log('It is not your turn!');
+              }
+            }}
           />
         );
       })}

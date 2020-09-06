@@ -9,7 +9,8 @@ const PlayedCards = ({ gameState, canvasDimensions }) => {
 
   useEffect(() => {
     if (gameSettings.playedCards) {
-      const updatedPlayedCards = gameSettings.playedCards.map(generateCardImage);
+      const updatedPlayedCards = gameSettings.playedCards
+        .map((cardData) => generateCardImage(cardData.playedCard));
       setPlayedCards(updatedPlayedCards);
     }
   }, [gameState]);
@@ -55,6 +56,7 @@ const PlayedCards = ({ gameState, canvasDimensions }) => {
 PlayedCards.propTypes = {
   socket: PropTypes.any,
   gameState: PropTypes.any,
+  canvasDimensions: PropTypes.any,
 };
 
 export default PlayedCards;
