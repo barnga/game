@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Layer } from 'react-konva';
 import handlePlayCard from '../scripts/handlePlayCard';
+import generateCardImage from '../../../helpers/generateCardImage';
 
 const Hand = ({ socket, gameState, canvasDimensions }) => {
   const [gameSettings] = gameState || [];
@@ -8,11 +9,7 @@ const Hand = ({ socket, gameState, canvasDimensions }) => {
 
   useEffect(() => {
     if (gameSettings.hand) {
-      const updatedHand = gameSettings.hand.map((card) => {
-        const img = document.createElement('img');
-        img.src = `http://localhost:7000/public/assets/cards/${card}.svg`;
-        return img;
-      });
+      const updatedHand = gameSettings.hand.map(generateCardImage);
       setCardImages(updatedHand);
     }
   }, [gameState]);

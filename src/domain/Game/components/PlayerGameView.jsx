@@ -24,6 +24,17 @@ const PlayerGameView = () => {
   useEffect(() => {
     let subscribed = true;
 
+    const handleGameUpdate = (data) => {
+      if (subscribed) {
+        setGameSettings((settings) => ({
+          ...settings,
+          players: data.players,
+          playedCards: data.playedCards,
+          hand: data.players[localStorage.sessionId].hand,
+        }));
+      }
+    };
+
     const handleRoomJoin = (data) => {
       if (subscribed) {
         setGameSettings((settings) => ({
@@ -40,10 +51,12 @@ const PlayerGameView = () => {
     };
 
     socket.emit('joined room', handleRoomJoin);
+    socket.on('game update', handleGameUpdate);
 
     return () => {
       subscribed = false;
       socket.off('joined room', handleRoomJoin);
+      socket.off('game update', handleGameUpdate);
     };
   }, []);
 

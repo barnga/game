@@ -40,8 +40,8 @@ const GameCanvas = ({ containerRef, brushColorRef }) => {
         y={(canvasDimensions.height / 2) - (100 / 2)}
       >
         <PlayedCards
-          socket={socket}
           gameState={gameState}
+          canvasDimensions={canvasDimensions}
         />
       </Layer>
       <Layer>
