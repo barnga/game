@@ -1,18 +1,16 @@
 import React, {
   useContext, useEffect, useState, useRef,
 } from 'react';
-import {
-  Image, Layer, Rect, Stage, Text,
-} from 'react-konva';
+import { Layer, Rect, Stage } from 'react-konva';
 import PropTypes from 'prop-types';
 import { GameContext, SocketContext } from '../../contexts/Contexts';
 import DrawingBoard from './components/DrawingBoard';
-import handlePlayCard from './scripts/handlePlayCard';
+import PlayedCards from './components/PlayedCards';
+import Hand from './components/Hand';
 
 const GameCanvas = ({ containerRef, brushColorRef }) => {
   const { gameState } = useContext(GameContext) || {};
   const { socket } = useContext(SocketContext) || {};
-  const [gameSettings] = gameState || [];
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
   const stageRef = useRef();
 
@@ -32,19 +30,6 @@ const GameCanvas = ({ containerRef, brushColorRef }) => {
     };
   }, []);
 
-  const cardImages = gameSettings.hand.map((card) => {
-    const img = document.createElement('img');
-    img.src = `http://localhost:7000/public/assets/cards/${card}.svg`;
-    return img;
-  });
-  const cardHeight = canvasDimensions.height / 4;
-  const cardWidth = cardHeight / 1.4;
-
-  const offsetX = ((canvasDimensions.width / 2) - (((cardImages?.length + 1) * 30) / 2));
-  const offsetY = (canvasDimensions.height - cardHeight) - 20;
-
-  if (!cardImages) return <></>;
-
   return (
     <Stage width={canvasDimensions.width} height={canvasDimensions.height} ref={stageRef}>
       <Layer>
@@ -54,13 +39,10 @@ const GameCanvas = ({ containerRef, brushColorRef }) => {
         x={(canvasDimensions.width / 2) - (300 / 2)}
         y={(canvasDimensions.height / 2) - (100 / 2)}
       >
-        <Rect
-          fill="#dddddd"
-          draggable
-          height={100}
-          width={300}
+        <PlayedCards
+          socket={socket}
+          gameState={gameState}
         />
-        <Text text="Play area" verticalAlign="middle" align="center" height={100} width={300} />
       </Layer>
       <Layer>
         <DrawingBoard
@@ -71,23 +53,11 @@ const GameCanvas = ({ containerRef, brushColorRef }) => {
           colorRef={brushColorRef}
         />
       </Layer>
-      <Layer x={offsetX} y={offsetY}>
-        {cardImages.map((card, idx) => {
-          const [cardName] = card.src.split('/').slice(-1);
-
-          return (
-            <Image
-              image={card}
-              height={cardHeight}
-              width={cardWidth}
-              x={idx * 30}
-              stroke="black"
-              key={cardName}
-              onClick={() => handlePlayCard(socket, cardName)}
-            />
-          );
-        })}
-      </Layer>
+      <Hand
+        socket={socket}
+        gameState={gameState}
+        canvasDimensions={canvasDimensions}
+      />
     </Stage>
   );
 };

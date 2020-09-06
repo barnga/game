@@ -48,9 +48,12 @@ const TeacherGameView = () => {
             <Card key={room.roomId} className="h-100">
               <Card.Body>
                 <Card.Title>Group {idx + 1}</Card.Title>
-                {room.players.map((player) => (
-                  <h6 key={player.sessionId}>{player.nickname}</h6>
-                ))}
+                {Object.entries(room.players).map((player) => {
+                  const [playerId, playerData] = player;
+                  return (
+                    <h6 key={playerId}>{playerData.nickname}</h6>
+                  );
+                })}
               </Card.Body>
             </Card>
           </Col>
