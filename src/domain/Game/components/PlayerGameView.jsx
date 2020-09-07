@@ -24,18 +24,6 @@ const PlayerGameView = () => {
   useEffect(() => {
     let subscribed = true;
 
-    const handleGameUpdate = (data) => {
-      if (subscribed) {
-        setGameSettings((settings) => ({
-          ...settings,
-          players: data.players,
-          playedCards: data.playedCards,
-          turn: data.turn,
-          hand: data.players[localStorage.sessionId].hand,
-        }));
-      }
-    };
-
     const handleRoomJoin = (data) => {
       if (subscribed) {
         setGameSettings((settings) => ({
@@ -44,11 +32,25 @@ const PlayerGameView = () => {
           rulesheetId: data.rulesheetId,
           hand: data.hand,
           turn: data.turn,
+          leaderboard: data.leaderboard,
           messages: [],
           strokes: {},
           showRules: true,
         }));
         setIsGameLoaded(true);
+      }
+    };
+
+    const handleGameUpdate = (data) => {
+      if (subscribed) {
+        setGameSettings((settings) => ({
+          ...settings,
+          players: data.players,
+          playedCards: data.playedCards,
+          turn: data.turn,
+          leaderboard: data.leaderboard,
+          hand: data.players[localStorage.sessionId].hand,
+        }));
       }
     };
 
@@ -94,7 +96,8 @@ const PlayerGameView = () => {
                       strokes: {},
                     }));
                   }}
-                >Clear
+                >
+                  Clear
                 </Button>
               </Col>
             </Row>

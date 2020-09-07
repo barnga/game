@@ -11,7 +11,13 @@ const Leaderboard = () => {
       <Card.Body>
         <Card.Title>Leaderboard</Card.Title>
         <Card.Subtitle>Group {gameSettings?.roomNumber}</Card.Subtitle>
-        <Card.Text>Leaderboard text</Card.Text>
+        {Object.entries(gameSettings?.leaderboard).map((playerData) => {
+          const [playerId, score] = playerData;
+
+          return (
+            <p>{playerId}: {score}</p>
+          );
+        })}
       </Card.Body>
     </Card>
   );
