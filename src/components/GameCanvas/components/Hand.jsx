@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, Layer } from 'react-konva';
 import handlePlayCard from '../scripts/handlePlayCard';
 import generateCardImage from '../../../helpers/generateCardImage';
+import { GameContext } from '../../../contexts/Contexts';
 
-const Hand = ({ socket, gameState, canvasDimensions }) => {
+const Hand = ({ socket, canvasDimensions }) => {
+  const { gameState } = useContext(GameContext) || {};
   const [gameSettings] = gameState || [];
   const [cardImages, setCardImages] = useState(null);
 

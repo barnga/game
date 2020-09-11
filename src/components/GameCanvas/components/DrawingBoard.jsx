@@ -1,13 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, {
+  useContext, useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
 import PlayerStroke from './PlayerStroke';
+import { GameContext } from '../../../contexts/Contexts';
 
 const DrawingBoard = ({
-  containerRef, stageRef, socket, gameState, colorRef,
+  containerRef, stageRef, socket, colorRef,
 }) => {
+  const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
+
+  const localStrokes = useRef({});
+  const [tempStrokes, setTempStrokes] = useState({});
   const isDrawing = useRef(false);
   const strokeID = useRef(0);
+
+  useEffect(() => {
+    localStrokes.current = gameSettings.strokes;
+    if (gameSettings.strokes === {}) {
+      setTempStrokes({});
+    } else {
+      setTempStrokes(localStrokes.current);
+    }
+  }, [gameSettings.strokes]);
 
   // limit the number of events per second
   const throttle = (callback, delay) => {
@@ -46,12 +62,12 @@ const DrawingBoard = ({
 
   const handleStrokeDraw = () => {
     if (!isDrawing.current) return;
-    if (gameSettings.strokes[strokeID.current] == null) return;
+    if (!localStrokes.current[strokeID.current]) return;
 
     // Define stroke
     const stroke = {
       color: colorRef.current,
-      points: gameSettings.strokes[strokeID.current].points.concat(
+      points: localStrokes.current[strokeID.current].points.concat(
         [stageRef.current.getStage().getPointerPosition()],
       ),
     };
@@ -63,33 +79,30 @@ const DrawingBoard = ({
     isDrawing.current = false;
   };
 
+  const handleStrokeUpdate = (stroke) => {
+    const updateStrokeID = Object.keys(stroke)[0];
+    localStrokes.current[updateStrokeID] = stroke[updateStrokeID];
+
+    setGameSettings((settings) => ({
+      ...settings,
+      strokes: localStrokes.current,
+    }));
+  };
+
   useEffect(() => {
     let subscribed = true;
 
-    const handleStrokeUpdate = (stroke) => {
+    socket.on('strokes update', (stroke) => {
       if (subscribed) {
-        setGameSettings((settings) => {
-          const { strokes } = settings;
-          const updateStrokeID = Object.keys(stroke)[0];
-          strokes[updateStrokeID] = stroke[updateStrokeID];
-          console.log(`Update with stroke: ${updateStrokeID}`);
-
-          return {
-            ...settings,
-            strokes,
-          };
-        });
+        handleStrokeUpdate(stroke);
       }
-    };
-
-    console.log(`Socket: ${socket.id}`);
-    socket.on('strokes update', handleStrokeUpdate);
+    });
 
     if (containerRef.current) {
       // Set drawing handlers
       containerRef.current.addEventListener('mousedown', handleStrokeStart, false);
       containerRef.current.addEventListener('mouseup', handleStrokeEnd, false);
-      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, 7.5), false);
+      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, false));
 
       // Touch support for mobile devices
       containerRef.current.addEventListener('touchstart', handleStrokeStart, false);
@@ -100,17 +113,29 @@ const DrawingBoard = ({
     return () => {
       subscribed = false;
       socket.off('strokes update', handleStrokeUpdate);
+
+      if (containerRef.current) {
+        // Set drawing handlers
+        containerRef.current.removeEventListener('mousedown', handleStrokeStart, false);
+        containerRef.current.removeEventListener('mouseup', handleStrokeEnd, false);
+        containerRef.current.removeEventListener('mousemove', throttle(handleStrokeDraw, false));
+
+        // Touch support for mobile devices
+        containerRef.current.removeEventListener('touchstart', handleStrokeStart, false);
+        containerRef.current.removeEventListener('touchend', handleStrokeEnd, false);
+        containerRef.current.removeEventListener('touchmove', throttle(handleStrokeDraw, 7.5), false);
+      }
     };
   }, []);
 
-  if (gameSettings) {
+  if (Object.keys(tempStrokes).length > 0) {
     return (
       <>
-        {Object.keys(gameSettings.strokes ?? {})
+        {Object.keys(tempStrokes)
           .map((key) => (
             <PlayerStroke
-              points={gameSettings.strokes[key].points}
-              color={gameSettings.strokes[key].color}
+              points={tempStrokes[key].points}
+              color={tempStrokes[key].color}
               key={key}
             />
           ))}
@@ -118,7 +143,7 @@ const DrawingBoard = ({
     );
   }
 
-  return (<></>);
+  return <></>;
 };
 
 DrawingBoard.propTypes = {
