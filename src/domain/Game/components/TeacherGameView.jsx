@@ -1,10 +1,14 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import {
-  Card, Col, Container, Row,
+  Button, Card, Col, Container, Row, Tabs, Tab,
 } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import Loading from '../../../components/Loading';
+import GameButtons from '../../../components/GameButtons';
+import Chat from '../../../components/Chat/Chat';
+import TeacherGroupView from './TeacherGroupView';
+import Rulesheet from '../../../components/Rulesheet/Rulesheet';
 
 const TeacherGameView = () => {
   const { gameId } = useParams();
@@ -16,10 +20,13 @@ const TeacherGameView = () => {
     let subscribed = true;
 
     const handleRoomsUpdate = (data) => {
+      console.log(data);
       if (subscribed) {
         setGameSettings((settings) => ({
           ...settings,
           rooms: data.rooms,
+          messages: [],
+          roomMessages: {},
         }));
       }
     };
@@ -38,28 +45,29 @@ const TeacherGameView = () => {
   }
 
   return (
-    <Container>
-      <Row className="p-2 pt-5">
-        <p className="h1">Game ID: {gameId}</p>
-      </Row>
-      <Row>
-        {gameSettings.rooms?.map((room, idx) => (
-          <Col className="col-4 mb-3">
-            <Card key={room.roomId} className="h-100">
-              <Card.Body>
-                <Card.Title>Group {idx + 1}</Card.Title>
-                {Object.entries(room.players).map((player) => {
-                  const [playerId, playerData] = player;
-                  return (
-                    <h6 key={playerId}>{playerData.nickname}</h6>
-                  );
-                })}
-              </Card.Body>
-            </Card>
+    <>
+      <Rulesheet teacher />
+      <Container fluid className="min-vh-100 d-flex flex-column justify-content-center p-0 m-0">
+        <Row className="vh-10 p-2 pt-5">
+          <p className="h1">Game ID: {gameId}</p>
+        </Row>
+        <Row className="min-vh-90 m-0 p-5">
+          <Col className="d-flex flex-column col-12 col-lg-3">
+            <GameButtons />
+            <Chat global />
           </Col>
-        ))}
-      </Row>
-    </Container>
+          <Col className="col-12 col-lg-9">
+            <Tabs id="gameViewTabs">
+              {gameSettings.rooms?.map((room, idx) => (
+                <Tab eventKey={room.roomId} title={`Group ${idx + 1}`} key={room.roomId}>
+                  <TeacherGroupView room={room} />
+                </Tab>
+              ))}
+            </Tabs>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

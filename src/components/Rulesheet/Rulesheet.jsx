@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { Modal, Pagination } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import { GameContext } from '../../contexts/Contexts';
 import TournamentGuidelines from './components/TournamentGuidelines';
 import FiveTricksRules from './components/FiveTricksRules';
 
-const Rulesheet = () => {
+const Rulesheet = ({ teacher }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
   const [showPage, setShowPage] = useState(1);
-  const pages = [<TournamentGuidelines />, <FiveTricksRules />];
+  const pages = teacher ? [<TournamentGuidelines />] : [<TournamentGuidelines />, <FiveTricksRules />];
 
   return (
     <Modal
@@ -28,6 +29,7 @@ const Rulesheet = () => {
               <Pagination.Item
                 active={showPage === pageNumber}
                 onClick={() => setShowPage(pageNumber)}
+                key={pageNumber}
               >
                 {pageNumber}
               </Pagination.Item>
@@ -37,6 +39,10 @@ const Rulesheet = () => {
       </Modal.Footer>
     </Modal>
   );
+};
+
+Rulesheet.propTypes = {
+  teacher: PropTypes.bool,
 };
 
 export default Rulesheet;
