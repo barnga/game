@@ -102,7 +102,7 @@ const DrawingBoard = ({
       // Set drawing handlers
       containerRef.current.addEventListener('mousedown', handleStrokeStart, false);
       containerRef.current.addEventListener('mouseup', handleStrokeEnd, false);
-      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, false));
+      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, 7.5), false);
 
       // Touch support for mobile devices
       containerRef.current.addEventListener('touchstart', handleStrokeStart, false);
@@ -118,7 +118,7 @@ const DrawingBoard = ({
         // Set drawing handlers
         containerRef.current.removeEventListener('mousedown', handleStrokeStart, false);
         containerRef.current.removeEventListener('mouseup', handleStrokeEnd, false);
-        containerRef.current.removeEventListener('mousemove', throttle(handleStrokeDraw, false));
+        containerRef.current.removeEventListener('mousemove', throttle(handleStrokeDraw, 7.5), false);
 
         // Touch support for mobile devices
         containerRef.current.removeEventListener('touchstart', handleStrokeStart, false);
