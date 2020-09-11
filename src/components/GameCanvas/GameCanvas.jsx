@@ -9,7 +9,6 @@ import PlayedCards from './components/PlayedCards';
 import Hand from './components/Hand';
 
 const GameCanvas = ({ containerRef, brushColorRef }) => {
-  const { gameState } = useContext(GameContext) || {};
   const { socket } = useContext(SocketContext) || {};
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
   const stageRef = useRef();
@@ -31,34 +30,35 @@ const GameCanvas = ({ containerRef, brushColorRef }) => {
   }, []);
 
   return (
-    <Stage width={canvasDimensions.width} height={canvasDimensions.height} ref={stageRef}>
-      <Layer>
-        <Rect fill="#f3f3f3" top={0} left={0} height={canvasDimensions.height} width={canvasDimensions.width} />
-      </Layer>
-      <Layer
-        x={(canvasDimensions.width / 2) - (300 / 2)}
-        y={(canvasDimensions.height / 2) - (100 / 2)}
-      >
-        <PlayedCards
-          gameState={gameState}
-          canvasDimensions={canvasDimensions}
-        />
-      </Layer>
-      <Layer>
-        <DrawingBoard
-          containerRef={containerRef}
-          stageRef={stageRef}
-          socket={socket}
-          gameState={gameState}
-          colorRef={brushColorRef}
-        />
-      </Layer>
-      <Hand
-        socket={socket}
-        gameState={gameState}
-        canvasDimensions={canvasDimensions}
-      />
-    </Stage>
+    <GameContext.Consumer>
+      {(value) => (
+        <Stage width={canvasDimensions.width} height={canvasDimensions.height} ref={stageRef}>
+          <GameContext.Provider value={value}>
+            <Layer>
+              <Rect fill="#f3f3f3" top={0} left={0} height={canvasDimensions.height} width={canvasDimensions.width} />
+            </Layer>
+            <Layer
+              x={(canvasDimensions.width / 2) - (300 / 2)}
+              y={(canvasDimensions.height / 2) - (100 / 2)}
+            >
+              <PlayedCards canvasDimensions={canvasDimensions} />
+            </Layer>
+            <Layer>
+              <DrawingBoard
+                containerRef={containerRef}
+                stageRef={stageRef}
+                socket={socket}
+                colorRef={brushColorRef}
+              />
+            </Layer>
+            <Hand
+              socket={socket}
+              canvasDimensions={canvasDimensions}
+            />
+          </GameContext.Provider>
+        </Stage>
+      )}
+    </GameContext.Consumer>
   );
 };
 
