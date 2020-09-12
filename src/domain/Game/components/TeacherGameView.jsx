@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
-  Button, Card, Col, Container, Row, Tabs, Tab,
+  Col, Container, Row, Tabs, Tab,
 } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
