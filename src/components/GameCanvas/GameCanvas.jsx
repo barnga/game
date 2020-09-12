@@ -7,6 +7,7 @@ import { GameContext, SocketContext } from '../../contexts/Contexts';
 import DrawingBoard from './components/DrawingBoard';
 import PlayedCards from './components/PlayedCards';
 import Hand from './components/Hand';
+import TeacherDrawingBoard from './components/TeacherDrawingBoard';
 
 const GameCanvas = ({
   containerRef, brushColorRef, teacherView, roomId,
@@ -47,14 +48,21 @@ const GameCanvas = ({
               <PlayedCards canvasDimensions={canvasDimensions} />
             </Layer>
             <Layer>
-              <DrawingBoard
-                containerRef={containerRef}
-                stageRef={stageRef}
-                socket={socket}
-                colorRef={brushColorRef}
-                roomId={roomId}
-                teacherView={teacherView}
-              />
+              {teacherView
+                ? (
+                  <TeacherDrawingBoard
+                    socket={socket}
+                    roomId={roomId}
+                  />
+                )
+                : (
+                  <DrawingBoard
+                    containerRef={containerRef}
+                    stageRef={stageRef}
+                    socket={socket}
+                    colorRef={brushColorRef}
+                  />
+                )}
             </Layer>
             <Hand
               socket={socket}

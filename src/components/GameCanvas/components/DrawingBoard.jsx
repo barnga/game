@@ -6,25 +6,20 @@ import PlayerStroke from './PlayerStroke';
 import { GameContext } from '../../../contexts/Contexts';
 
 const DrawingBoard = ({
-  containerRef, stageRef, socket, colorRef, teacherView, roomId,
+  containerRef, stageRef, socket, colorRef, clearRef,
 }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
 
   const localStrokes = useRef({});
-  const [tempStrokes, setTempStrokes] = useState({});
+  const [updates, updater] = useState(0);
   const isDrawing = useRef(false);
   const strokeID = useRef(0);
 
-  const getStrokes = () => (teacherView
-    ? (gameSettings.roomStrokes[roomId] ?? {})
-    : gameSettings.strokes
-  );
-
   useEffect(() => {
-    localStrokes.current = getStrokes();
-    setTempStrokes(localStrokes.current);
-  }, [getStrokes()]);
+    localStrokes.current = gameSettings.strokes;
+    updater((v) => v + 1);
+  }, [gameSettings.strokes]);
 
   // limit the number of events per second
   const throttle = (callback, delay) => {
@@ -84,70 +79,61 @@ const DrawingBoard = ({
     const updateStrokeID = Object.keys(stroke)[0];
     localStrokes.current[updateStrokeID] = stroke[updateStrokeID];
 
-    setGameSettings((settings) => {
-      if (teacherView) {
-        const { roomStrokes } = settings.roomStrokes;
-        roomStrokes[roomId] = localStrokes.current;
-
-        return ({
-          ...settings,
-          roomStrokes,
-        });
-      }
-      return ({
-        ...settings,
-        strokes: localStrokes.current,
-      });
-    });
+    setGameSettings((settings) => ({
+      ...settings,
+      strokes: localStrokes.current,
+    }));
   };
 
   useEffect(() => {
     let subscribed = true;
 
-    socket.on('strokes update', (stroke) => {
+    const onStrokeUpdate = (stroke) => {
       if (subscribed) {
         handleStrokeUpdate(stroke);
       }
-    });
+    };
 
-    if (containerRef.current && !teacherView) {
+    socket.on('strokes update', onStrokeUpdate);
+
+    if (containerRef.current) {
       // Set drawing handlers
       containerRef.current.addEventListener('mousedown', handleStrokeStart, false);
       containerRef.current.addEventListener('mouseup', handleStrokeEnd, false);
-      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, 7.5), false);
+      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, 10), false);
 
       // Touch support for mobile devices
       containerRef.current.addEventListener('touchstart', handleStrokeStart, false);
       containerRef.current.addEventListener('touchend', handleStrokeEnd, false);
-      containerRef.current.addEventListener('touchmove', throttle(handleStrokeDraw, 7.5), false);
+      containerRef.current.addEventListener('touchmove', throttle(handleStrokeDraw, 10), false);
     }
 
     return () => {
       subscribed = false;
-      socket.off('strokes update', handleStrokeUpdate);
+      socket.off('strokes update', onStrokeUpdate);
 
-      if (containerRef.current && !teacherView) {
+      if (containerRef.current) {
         // Set drawing handlers
         containerRef.current.removeEventListener('mousedown', handleStrokeStart, false);
         containerRef.current.removeEventListener('mouseup', handleStrokeEnd, false);
-        containerRef.current.removeEventListener('mousemove', throttle(handleStrokeDraw, 7.5), false);
+        containerRef.current.removeEventListener('mousemove', throttle(handleStrokeDraw, 10), false);
 
         // Touch support for mobile devices
         containerRef.current.removeEventListener('touchstart', handleStrokeStart, false);
         containerRef.current.removeEventListener('touchend', handleStrokeEnd, false);
-        containerRef.current.removeEventListener('touchmove', throttle(handleStrokeDraw, 7.5), false);
+        containerRef.current.removeEventListener('touchmove', throttle(handleStrokeDraw, 10), false);
       }
     };
   }, []);
 
-  if (Object.keys(tempStrokes).length > 0) {
+  if (Object.keys(localStrokes.current).length > 0) {
     return (
       <>
-        {Object.keys(tempStrokes)
+        {Object.keys(localStrokes.current)
           .map((key) => (
             <PlayerStroke
-              points={tempStrokes[key].points}
-              color={tempStrokes[key].color}
+              points={localStrokes.current[key].points}
+              color={localStrokes.current[key].color}
               key={key}
             />
           ))}
@@ -160,12 +146,11 @@ const DrawingBoard = ({
 
 DrawingBoard.propTypes = {
   stageRef: PropTypes.any,
+  clearRef: PropTypes.any,
   containerRef: PropTypes.any,
   socket: PropTypes.any,
   gameState: PropTypes.any,
   colorRef: PropTypes.any,
-  teacherView: PropTypes.bool,
-  roomId: PropTypes.string,
 };
 
 export default DrawingBoard;
