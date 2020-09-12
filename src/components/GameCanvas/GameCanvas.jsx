@@ -39,7 +39,15 @@ const GameCanvas = ({
         <Stage width={canvasDimensions.width} height={canvasDimensions.height} ref={stageRef}>
           <GameContext.Provider value={value}>
             <Layer>
-              <Rect fill="#f3f3f3" top={0} left={0} height={canvasDimensions.height} width={canvasDimensions.width} />
+              <Rect
+                fill="#f3f3f3"
+                top={0}
+                left={0}
+                height={canvasDimensions.height}
+                width={canvasDimensions.width}
+                strokeWidth={5}
+                stroke={value.gameState[0]?.turn === localStorage.sessionId ? 'green' : null}
+              />
             </Layer>
             <Layer
               x={(canvasDimensions.width / 2) - (300 / 2)}

@@ -9,7 +9,9 @@ const Rulesheet = ({ teacher }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
   const [showPage, setShowPage] = useState(1);
-  const pages = teacher ? [<TournamentGuidelines />] : [<TournamentGuidelines />, <FiveTricksRules />];
+  const pages = teacher ? [<TournamentGuidelines />] : (
+    [<TournamentGuidelines />, <FiveTricksRules />]
+  );
 
   return (
     <Modal

@@ -27,6 +27,7 @@ const FiveTricksRules = () => {
         <p>
           A player will be randomly chosen to start each game.
           Other players take turns playing a card.
+          When it is your turn to play a card, your game board will display a green outline.
           The cards played (one from each player) constitute a “trick”.
           For the last trick, there may not be enough cards for everyone to play.
         </p>
