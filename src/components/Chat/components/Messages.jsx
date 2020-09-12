@@ -19,9 +19,9 @@ const Messages = ({ global, admin, roomId }) => {
 
         if (subscribed) {
           setGameSettings((settings) => {
+            const { roomMessages } = settings;
             const messages = settings.roomMessages[roomId] ?? [];
             messages.push(message);
-            const { roomMessages } = settings;
             roomMessages[roomId] = messages;
 
             return ({

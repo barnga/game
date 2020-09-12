@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Chat from '../../../components/Chat/Chat';
+import GameCanvas from '../../../components/GameCanvas/GameCanvas';
 
 const TeacherGroupView = ({ room }) => {
   const containerRef = useRef(null);
@@ -26,8 +27,7 @@ const TeacherGroupView = ({ room }) => {
         <Chat roomId={room.roomId} admin />
       </Col>
       <Col className="col-12 col-lg-9">
-        <div>Boaner!</div>
-        {/* <GameCanvas containerRef={containerRef} teacherView /> */}
+        <GameCanvas containerRef={containerRef} roomId={room.roomId} teacherView />
       </Col>
     </Row>
   );

@@ -6,7 +6,7 @@ import PlayerStroke from './PlayerStroke';
 import { GameContext } from '../../../contexts/Contexts';
 
 const DrawingBoard = ({
-  containerRef, stageRef, socket, colorRef,
+  containerRef, stageRef, socket, colorRef, teacherView, roomId,
 }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
@@ -16,14 +16,15 @@ const DrawingBoard = ({
   const isDrawing = useRef(false);
   const strokeID = useRef(0);
 
+  const getStrokes = () => (teacherView
+    ? (gameSettings.roomStrokes[roomId] ?? {})
+    : gameSettings.strokes
+  );
+
   useEffect(() => {
-    localStrokes.current = gameSettings.strokes;
-    if (gameSettings.strokes === {}) {
-      setTempStrokes({});
-    } else {
-      setTempStrokes(localStrokes.current);
-    }
-  }, [gameSettings.strokes]);
+    localStrokes.current = getStrokes();
+    setTempStrokes(localStrokes.current);
+  }, [getStrokes()]);
 
   // limit the number of events per second
   const throttle = (callback, delay) => {
@@ -83,10 +84,21 @@ const DrawingBoard = ({
     const updateStrokeID = Object.keys(stroke)[0];
     localStrokes.current[updateStrokeID] = stroke[updateStrokeID];
 
-    setGameSettings((settings) => ({
-      ...settings,
-      strokes: localStrokes.current,
-    }));
+    setGameSettings((settings) => {
+      if (teacherView) {
+        const { roomStrokes } = settings.roomStrokes;
+        roomStrokes[roomId] = localStrokes.current;
+
+        return ({
+          ...settings,
+          roomStrokes,
+        });
+      }
+      return ({
+        ...settings,
+        strokes: localStrokes.current,
+      });
+    });
   };
 
   useEffect(() => {
@@ -98,7 +110,7 @@ const DrawingBoard = ({
       }
     });
 
-    if (containerRef.current) {
+    if (containerRef.current && !teacherView) {
       // Set drawing handlers
       containerRef.current.addEventListener('mousedown', handleStrokeStart, false);
       containerRef.current.addEventListener('mouseup', handleStrokeEnd, false);
@@ -114,7 +126,7 @@ const DrawingBoard = ({
       subscribed = false;
       socket.off('strokes update', handleStrokeUpdate);
 
-      if (containerRef.current) {
+      if (containerRef.current && !teacherView) {
         // Set drawing handlers
         containerRef.current.removeEventListener('mousedown', handleStrokeStart, false);
         containerRef.current.removeEventListener('mouseup', handleStrokeEnd, false);
@@ -152,6 +164,8 @@ DrawingBoard.propTypes = {
   socket: PropTypes.any,
   gameState: PropTypes.any,
   colorRef: PropTypes.any,
+  teacherView: PropTypes.bool,
+  roomId: PropTypes.string,
 };
 
 export default DrawingBoard;

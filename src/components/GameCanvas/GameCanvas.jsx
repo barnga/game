@@ -8,7 +8,9 @@ import DrawingBoard from './components/DrawingBoard';
 import PlayedCards from './components/PlayedCards';
 import Hand from './components/Hand';
 
-const GameCanvas = ({ containerRef, brushColorRef, teacherView }) => {
+const GameCanvas = ({
+  containerRef, brushColorRef, teacherView, roomId,
+}) => {
   const { gameState } = useContext(GameContext) || {};
   const { socket } = useContext(SocketContext) || {};
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
@@ -50,6 +52,8 @@ const GameCanvas = ({ containerRef, brushColorRef, teacherView }) => {
                 stageRef={stageRef}
                 socket={socket}
                 colorRef={brushColorRef}
+                roomId={roomId}
+                teacherView={teacherView}
               />
             </Layer>
             <Hand
@@ -67,6 +71,7 @@ GameCanvas.propTypes = {
   containerRef: PropTypes.any,
   brushColorRef: PropTypes.any,
   teacherView: PropTypes.bool,
+  roomId: PropTypes.string,
 };
 
 export default GameCanvas;

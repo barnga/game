@@ -27,6 +27,7 @@ const TeacherGameView = () => {
           rooms: data.rooms,
           messages: [],
           roomMessages: {},
+          roomStrokes: {},
         }));
       }
     };
