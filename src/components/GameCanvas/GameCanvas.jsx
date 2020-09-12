@@ -7,9 +7,9 @@ import { GameContext, SocketContext } from '../../contexts/Contexts';
 import DrawingBoard from './components/DrawingBoard';
 import PlayedCards from './components/PlayedCards';
 import Hand from './components/Hand';
+import Winner from './components/Winner';
 
-const GameCanvas = ({ containerRef, brushColorRef, teacherView }) => {
-  const { gameState } = useContext(GameContext) || {};
+const GameCanvas = ({ containerRef, brushColorRef }) => {
   const { socket } = useContext(SocketContext) || {};
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
   const stageRef = useRef();
@@ -52,6 +52,7 @@ const GameCanvas = ({ containerRef, brushColorRef, teacherView }) => {
                 colorRef={brushColorRef}
               />
             </Layer>
+            <Winner canvasDimensions={canvasDimensions} />
             <Hand
               socket={socket}
               canvasDimensions={canvasDimensions}
