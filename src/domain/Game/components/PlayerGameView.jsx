@@ -33,6 +33,7 @@ const PlayerGameView = () => {
           hand: data.hand,
           turn: data.turn,
           leaderboard: data.leaderboard,
+          roundSettings: data.roundSettings,
           messages: [],
           strokes: {},
           showRules: true,
@@ -49,6 +50,7 @@ const PlayerGameView = () => {
           playedCards: data.playedCards,
           turn: data.turn,
           leaderboard: data.leaderboard,
+          roundSettings: data.roundSettings,
           hand: data.players[localStorage.sessionId].hand,
         }));
       }

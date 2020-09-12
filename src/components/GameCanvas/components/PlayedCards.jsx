@@ -44,7 +44,6 @@ const PlayedCards = ({ canvasDimensions }) => {
         <>
           <Rect
             fill="#dddddd"
-            draggable
             height={100}
             width={300}
           />

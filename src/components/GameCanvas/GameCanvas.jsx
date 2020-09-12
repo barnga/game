@@ -8,11 +8,11 @@ import DrawingBoard from './components/DrawingBoard';
 import PlayedCards from './components/PlayedCards';
 import Hand from './components/Hand';
 import TeacherDrawingBoard from './components/TeacherDrawingBoard';
+import Winner from './components/Winner';
 
 const GameCanvas = ({
   containerRef, brushColorRef, teacherView, roomId,
 }) => {
-  const { gameState } = useContext(GameContext) || {};
   const { socket } = useContext(SocketContext) || {};
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
   const stageRef = useRef();
@@ -64,6 +64,7 @@ const GameCanvas = ({
                   />
                 )}
             </Layer>
+            <Winner canvasDimensions={canvasDimensions} />
             <Hand
               socket={socket}
               canvasDimensions={canvasDimensions}
