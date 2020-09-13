@@ -11,6 +11,7 @@ import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import GameCanvas from '../../../components/GameCanvas/GameCanvas';
 import GameButtons from '../../../components/GameButtons';
 import Rulesheet from '../../../components/Rulesheet/Rulesheet';
+import VotingModal from '../../../components/VotingModal/VotingModal';
 
 const PlayerGameView = () => {
   const { socket } = useContext(SocketContext) || {};
@@ -52,6 +53,7 @@ const PlayerGameView = () => {
           leaderboard: data.leaderboard,
           roundSettings: data.roundSettings,
           hand: data.players[localStorage.sessionId].hand,
+          showVoting: data.showVoting,
         }));
       }
     };
@@ -73,6 +75,7 @@ const PlayerGameView = () => {
   return (
     <>
       <Rulesheet />
+      <VotingModal />
       <Container fluid className="min-vh-100 d-flex flex-column justify-content-center p-0 m-0">
         <Row className="min-vh-100 m-0 p-5">
           <Col className="d-flex flex-column col-12 col-lg-3">
