@@ -11,7 +11,7 @@ const FiveTricksRules = () => {
   return (
     <>
       <Modal.Header closeButton>
-        <h4 className="p-0 m-0">How to Play Five Tricks {gameSettings.rulesheetId}</h4>
+        <h4 className="p-0 m-0">How to Play Five Tricks</h4>
       </Modal.Header>
       <Modal.Body>
         <h5>Number of Players</h5>
