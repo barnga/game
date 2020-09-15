@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import {
-  Col, Container, Row, Tabs, Tab,
+  Col, Container, Row, Tabs, Tab, Button,
 } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
@@ -47,10 +47,11 @@ const TeacherGameView = () => {
 
   return (
     <>
-      <Rulesheet teacher />
+      <Rulesheet isTeacher />
       <Container fluid className="min-vh-100 d-flex flex-column justify-content-center p-0 m-0">
         <Row className="vh-10 p-2 pt-5">
           <p className="h1">Game ID: {gameId}</p>
+          <Button onClick={() => socket.emit('change rooms')}>Change rooms</Button>
         </Row>
         <Row className="min-vh-90 m-0 p-5">
           <Col className="d-flex flex-column col-12 col-lg-3">

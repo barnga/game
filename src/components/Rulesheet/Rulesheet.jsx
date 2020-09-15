@@ -5,11 +5,11 @@ import { GameContext } from '../../contexts/Contexts';
 import TournamentGuidelines from './components/TournamentGuidelines';
 import FiveTricksRules from './components/FiveTricksRules';
 
-const Rulesheet = ({ teacher }) => {
+const Rulesheet = ({ isTeacher }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
   const [showPage, setShowPage] = useState(1);
-  const pages = teacher ? [<TournamentGuidelines />] : (
+  const pages = isTeacher ? [<TournamentGuidelines />] : (
     [<TournamentGuidelines />, <FiveTricksRules />]
   );
 
@@ -44,7 +44,7 @@ const Rulesheet = ({ teacher }) => {
 };
 
 Rulesheet.propTypes = {
-  teacher: PropTypes.bool,
+  isTeacher: PropTypes.bool,
 };
 
 export default Rulesheet;
