@@ -7,10 +7,11 @@ import handleGameCreation from '../scripts/handleGameCreation';
 import withSocket from '../../../hocs/withSocket';
 import { SocketContext } from '../../../contexts/Contexts';
 import useNamespace from '../../../hooks/useNamespace';
+import baseURL from '../../../helpers/baseURL';
 
 const CreateGameForm = ({ history }) => {
   const { socket } = useContext(SocketContext);
-  useNamespace('http://localhost:3000');
+  useNamespace(baseURL);
 
   if (!socket) return <></>;
 

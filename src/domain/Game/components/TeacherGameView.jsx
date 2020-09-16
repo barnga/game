@@ -20,7 +20,6 @@ const TeacherGameView = () => {
     let subscribed = true;
 
     const handleRoomsUpdate = (data) => {
-      console.log(data);
       if (subscribed) {
         setGameSettings((settings) => ({
           ...settings,

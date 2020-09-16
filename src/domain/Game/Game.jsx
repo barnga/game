@@ -10,6 +10,7 @@ import Loading from '../../components/Loading';
 import PlayerGameView from './components/PlayerGameView';
 import withGame from '../../hocs/withGame';
 import TeacherGameView from './components/TeacherGameView';
+import baseURL from '../../helpers/baseURL';
 
 const Game = ({ history, location }) => {
   const { gameId } = useParams();
@@ -17,7 +18,7 @@ const Game = ({ history, location }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
   const { isTeacher } = gameSettings || {};
-  useNamespace(`http://localhost:3000/${gameId}`);
+  useNamespace(`${baseURL}/${gameId}`);
 
   const [isLoaded, setIsLoaded] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
