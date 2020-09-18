@@ -12,7 +12,7 @@ const App = () => (
   <BrowserRouter>
     <Switch>
       <Route path="/" exact component={Landing} />
-      <Route path="/play" exact component={Play} />
+      <Route path="/:play(play|p)/:gameId?" exact component={Play} />
       <Route path="/create" exact component={Create} />
       <Route path="/guide" exact component={Guide} />
       <Route path="/about" exact component={About} />
