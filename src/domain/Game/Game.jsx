@@ -49,7 +49,8 @@ const Game = ({ history, location }) => {
   useEffect(() => {
     setGameSettings((settings) => ({
       ...settings,
-      isTeacher: location.state?.isTeacher || false,
+      isTeacher: location.state?.isTeacher ?? false,
+      adminToken: location.state?.adminToken ?? undefined,
     }));
   }, [location]);
 

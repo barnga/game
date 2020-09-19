@@ -6,6 +6,7 @@ import {
 import Players from '../../../components/Players';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import handleStartGame from '../scripts/handleStartGame';
+import JoinLink from './JoinLink';
 
 const WaitingRoom = () => {
   const { gameId } = useParams();
@@ -25,19 +26,27 @@ const WaitingRoom = () => {
             <div className="d-flex w-100 justify-content-between">
               <h1>Game ID: {gameId}</h1>
               {isTeacher && (
-                <Button
-                  disabled={disableStartGame}
-                  onClick={() => {
-                    setDisableStartGame(true);
-                    handleStartGame(socket)
-                      .then((hasMinimumPlayers) => {
-                        setShowError(!hasMinimumPlayers);
-                        setDisableStartGame(false);
-                      });
-                  }}
-                >
-                  Start game
-                </Button>
+                <Row>
+                  <Col>
+                    <JoinLink />
+                  </Col>
+                  <Col>
+                    <Button
+                      disabled={disableStartGame}
+                      onClick={() => {
+                        setDisableStartGame(true);
+                        handleStartGame(socket)
+                          .then((hasMinimumPlayers) => {
+                            setShowError(!hasMinimumPlayers);
+                            setDisableStartGame(false);
+                          });
+                      }}
+                      block
+                    >
+                      Start game
+                    </Button>
+                  </Col>
+                </Row>
               )}
             </div>
             <hr />
