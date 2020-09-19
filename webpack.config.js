@@ -2,8 +2,8 @@ const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
-module.exports = {
-  mode: 'development',
+module.exports = (env) => ({
+  mode: env.NODE_ENV || 'development',
   entry: path.resolve('src/index.jsx'),
   output: {
     filename: 'js/main.js',
@@ -45,4 +45,4 @@ module.exports = {
     historyApiFallback: true,
     port: 7000,
   },
-};
+});
