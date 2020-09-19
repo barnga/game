@@ -26,12 +26,13 @@ const WaitingRoom = () => {
             <div className="d-flex w-100 justify-content-between">
               <h1>Game ID: {gameId}</h1>
               {isTeacher && (
-                <Row>
+                <Row className="w-50 align-items-center">
                   <Col>
                     <JoinLink />
                   </Col>
                   <Col>
                     <Button
+                      block
                       disabled={disableStartGame}
                       onClick={() => {
                         setDisableStartGame(true);
@@ -41,7 +42,6 @@ const WaitingRoom = () => {
                             setDisableStartGame(false);
                           });
                       }}
-                      block
                     >
                       Start game
                     </Button>

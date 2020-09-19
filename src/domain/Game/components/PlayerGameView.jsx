@@ -44,7 +44,6 @@ const PlayerGameView = () => {
     };
 
     const handleGameUpdate = (data) => {
-      console.log(data);
       if (subscribed) {
         setGameSettings((settings) => ({
           ...settings,
