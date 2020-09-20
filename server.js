@@ -2,9 +2,11 @@ const compression = require('compression');
 const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
+const cors = require('cors');
 
 const app = express();
 
+app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.disable('x-powered-by');
