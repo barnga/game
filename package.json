@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server --env.NODE_ENV=development",
     "build": "webpack --env.NODE_ENV=production",
     "start": "node server.js",
     "scss": "gulp"
