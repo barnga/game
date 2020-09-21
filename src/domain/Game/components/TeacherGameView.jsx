@@ -50,11 +50,11 @@ const TeacherGameView = () => {
       <Container fluid className="min-vh-100 d-flex flex-column justify-content-center p-0 m-0">
         <Row className="vh-10 p-2 pt-5">
           <p className="h1">Game ID: {gameId}</p>
-          <Button onClick={() => socket.emit('change rooms')}>Change rooms</Button>
         </Row>
         <Row className="min-vh-90 m-0 p-5">
           <Col className="d-flex flex-column col-12 col-lg-3">
             <GameButtons />
+            <Button onClick={() => socket.emit('change rooms')} className="mb-2">Change rooms</Button>
             <Chat global />
           </Col>
           <Col className="col-12 col-lg-9">

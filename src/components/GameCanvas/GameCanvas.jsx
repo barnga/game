@@ -10,12 +10,16 @@ import Hand from './components/Hand';
 import TeacherDrawingBoard from './components/TeacherDrawingBoard';
 import Winner from './components/Winner';
 
+import themeColors from '../../assets/scss/user-variables.scss';
+
 const GameCanvas = ({
   containerRef, brushColorRef, teacherView, roomId,
 }) => {
   const { socket } = useContext(SocketContext) || {};
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
   const stageRef = useRef();
+
+  console.log(themeColors);
 
   useEffect(() => {
     const setDimensions = () => {
@@ -46,7 +50,9 @@ const GameCanvas = ({
                 height={canvasDimensions.height}
                 width={canvasDimensions.width}
                 strokeWidth={5}
-                stroke={value.gameState[0]?.turn === localStorage.sessionId ? 'green' : null}
+                stroke={value.gameState[0]?.turn === localStorage.sessionId
+                  ? themeColors.success : themeColors.primary}
+                style={{ border: '2px solid red' }}
               />
             </Layer>
             <Layer

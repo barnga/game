@@ -8,9 +8,9 @@
 // Color Scheme
 // Uncomment the variables below and change the hex values.
 
-$primary: #60bfcc;
+$primary: #50a4b1;
 $primary-1: #2E2640;
-$primary-2: #FAC761;
+$primary-2: #ffe0a4;
 $primary-3: #2E2640;
 $secondary: #5d5585;
 $success: #74C47C;
@@ -43,3 +43,17 @@ $theme-colors: (
     "light":      $light,
     "dark":       $dark,
 );
+
+// Export to make vars accessible in JSX
+
+:export {
+  primary:      $primary;
+  primary-1:    $primary-1;
+  primary-2:    $primary-2;
+  primary-3:    $primary-3;
+  secondary:  $secondary;
+  success:    $success;
+  danger:     $danger;
+  light:      $light;
+  dark:       $dark;
+}
