@@ -47,12 +47,13 @@ const PlayerGameView = () => {
       if (subscribed) {
         setGameSettings((settings) => ({
           ...settings,
+          roomNumber: data.roomNumber,
           players: data.players,
           playedCards: data.playedCards,
           turn: data.turn,
           leaderboard: data.leaderboard,
           roundSettings: data.roundSettings,
-          hand: data.players[localStorage.sessionId]?.hand || [],
+          hand: data.players[localStorage.sessionId].hand,
           showVoting: data.showVoting,
         }));
       }

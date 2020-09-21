@@ -5,8 +5,6 @@ import {
 import { LinkContainer } from 'react-router-bootstrap';
 import { Link } from 'react-router-dom';
 import blob1 from '../assets/img/decorations/deco-blob-1.svg';
-import marker1 from '../assets/img/icons/theme/map/marker-1.svg';
-import call1 from '../assets/img/icons/theme/communication/call-1.svg';
 import mail from '../assets/img/icons/theme/communication/mail.svg';
 import Svg from './Svg';
 import navItems from '../data/navItems';
@@ -53,48 +51,12 @@ const Footer = () => (
           <h5>Contact</h5>
           <ul className="list-unstyled">
             <li className="mb-3 d-flex">
-              <Svg src={marker1} classNames="icon" />
-              <div className="ml-3">
-                <span>
-                  348 Greenpoint Avenue
-                  <br />
-                  Brooklyn, NY
-                </span>
-              </div>
-            </li>
-            <li className="mb-3 d-flex">
-              <Svg src={call1} classNames="icon" />
-              <div className="ml-3">
-                <span>+61 3928 3324</span>
-                <span className="d-block text-muted text-small">Mon - Fri 9am - 5pm</span>
-              </div>
-            </li>
-            <li className="mb-3 d-flex">
               <Svg src={mail} classNames="icon" />
               <div className="ml-3">
-                <a href="#">hello@company.io</a>
+                <a href="#">barngaproject@gmail.com</a>
               </div>
             </li>
           </ul>
-        </Col>
-        <Col className="col-lg-5 col-xl-4 mt-3 mt-lg-0">
-          <h5>Subscribe</h5>
-          <p>
-            The latest Leap news, articles, and resources,
-            sent straight to your inbox every month.
-          </p>
-          <form action="" data-form-email noValidate>
-            <div className="form-row">
-              <div className="col-12">
-                <input type="email" className="form-control mb-2" placeholder="Email Address" name="email" required />
-              </div>
-              <div className="col-12">
-                <button type="submit" className="btn btn-primary btn-loading btn-block">
-                  <span>Subscribe</span>
-                </button>
-              </div>
-            </div>
-          </form>
         </Col>
       </Row>
     </Container>

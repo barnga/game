@@ -40,13 +40,12 @@ const JoinLink = () => {
     setCopiedStudent(false);
   };
 
-  console.log(gameState);
   const playerLink = `${window.location.protocol}//${window.location.host}/p/${gameId}`;
   const teacherLink = `${window.location.protocol}//${window.location.host}/p/${gameId}?token=${adminToken}`;
 
   return (
     <>
-      <Button variant="outline-secondary" onClick={handleShow} block>
+      <Button variant="outline-dark" onClick={handleShow} block>
         Share
       </Button>
       <Modal show={showModal} onHide={handleClose} centered>

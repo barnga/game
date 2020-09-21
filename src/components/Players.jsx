@@ -40,7 +40,7 @@ const Players = () => {
   }
 
   return (
-    <div>
+    <div className="text-center">
       <h5>{players?.length} {players?.length === 1 ? 'player' : 'players'}</h5>
       <div className="d-flex flex-column align-items-center pt-2">
         {players?.map((player) => <Player data={player} key={player.id} />)}

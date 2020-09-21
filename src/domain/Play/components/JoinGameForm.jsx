@@ -3,7 +3,7 @@ import { Field, Form, Formik } from 'formik';
 import { Alert, Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useParams, useLocation } from 'react-router';
+import { useParams } from 'react-router';
 import withSocket from '../../../hocs/withSocket';
 import { SocketContext } from '../../../contexts/Contexts';
 import useNamespace from '../../../hooks/useNamespace';
@@ -11,12 +11,13 @@ import handleJoinGame from '../scripts/handleJoinGame';
 import JoinGameSchema from '../../../schemas/JoinGameSchema';
 import setFieldError from '../../../helpers/setFieldError';
 import useQuery from '../../../helpers/useQuery';
+import baseURL from '../../../helpers/baseURL';
 
 const JoinGameForm = ({ history }) => {
   const { socket } = useContext(SocketContext) || {};
   const [showError, setShowError] = useState(false);
   const { gameId } = useParams();
-  useNamespace('http://localhost:3000');
+  useNamespace(baseURL);
 
   const query = useQuery();
   const adminToken = query.get('token');
@@ -44,7 +45,9 @@ const JoinGameForm = ({ history }) => {
         }}
         onSubmit={(values) => {
           handleJoinGame({ values, socket, history }, adminToken)
-            .then((success) => setShowError(!success));
+            .then((success) => {
+              if (!success) setShowError(true);
+            });
         }}
         validationSchema={JoinGameSchema}
       >

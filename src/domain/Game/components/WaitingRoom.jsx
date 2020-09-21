@@ -16,6 +16,7 @@ const WaitingRoom = () => {
   const { isTeacher } = gameSettings || {};
 
   const [showError, setShowError] = useState(false);
+  const [disableStartGame, setDisableStartGame] = useState(false);
 
   return (
     <section className="pb-0 pb-5">
@@ -25,20 +26,27 @@ const WaitingRoom = () => {
             <div className="d-flex w-100 justify-content-between h-25">
               <h1>Game ID: {gameId}</h1>
               {isTeacher && (
-              <Row>
-                <Col>
-                  <JoinLink />
-                </Col>
-                <Col>
-                  <Button
-                    onClick={() => handleStartGame(socket)
-                      .then((hasMinimumPlayers) => setShowError(!hasMinimumPlayers))}
-                    block
-                  >
-                    Start
-                  </Button>
-                </Col>
-              </Row>
+                <Row className="w-50 align-items-center">
+                  <Col>
+                    <JoinLink />
+                  </Col>
+                  <Col>
+                    <Button
+                      block
+                      disabled={disableStartGame}
+                      onClick={() => {
+                        setDisableStartGame(true);
+                        handleStartGame(socket)
+                          .then((hasMinimumPlayers) => {
+                            setShowError(!hasMinimumPlayers);
+                            setDisableStartGame(false);
+                          });
+                      }}
+                    >
+                      Start
+                    </Button>
+                  </Col>
+                </Row>
               )}
             </div>
             <hr />

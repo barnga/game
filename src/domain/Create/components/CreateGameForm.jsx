@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
@@ -21,7 +21,7 @@ const CreateGameForm = ({ history }) => {
   return (
     <Formik
       initialValues={{
-        playersPerRoom: 4,
+        playersPerRoom: 3,
         nickname: '',
       }}
       onSubmit={(values) => {
