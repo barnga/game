@@ -45,7 +45,7 @@ const JoinLink = () => {
 
   return (
     <>
-      <Button variant="outline-dark" onClick={handleShow} block>
+      <Button variant="outline-secondary" onClick={handleShow} block>
         Share
       </Button>
       <Modal show={showModal} onHide={handleClose} centered>

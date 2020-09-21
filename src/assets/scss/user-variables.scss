@@ -8,20 +8,38 @@
 // Color Scheme
 // Uncomment the variables below and change the hex values.
 
-// $primary:      #000;
-// $primary-2:     #000;
-// $primary-3:     #000;
+$primary: #60bfcc;
+$primary-1: #2E2640;
+$primary-2: #FAC761;
+$primary-3: #2E2640;
+$secondary: #5d5585;
+$success: #74C47C;
+$danger: #FF8789;
+$light: #c7dce2;
+$dark: #231f2f;
 
 // Do not change or remove the $theme-color-scheme or $theme-colors maps below
 
 $theme-color-scheme: (
     "primary":    $primary,
+    "primary-1":  $primary-1,
     "primary-2":  $primary-2,
-    "primary-3":  $primary-3
+    "primary-3":  $primary-3,
+    "secondary":  $secondary,
+    "success":    $success,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark,
 );
 
 $theme-colors: (
     "primary":    $primary,
+    "primary-1":  $primary-1,
     "primary-2":  $primary-2,
     "primary-3":  $primary-3,
+    "secondary":  $secondary,
+    "success":    $success,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark,
 );
