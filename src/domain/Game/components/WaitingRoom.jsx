@@ -23,7 +23,7 @@ const WaitingRoom = () => {
       <Container>
         <Row className="justify-content-center">
           <Col className="col-lg-10 col-xl-8">
-            <div className="d-flex w-100 justify-content-between">
+            <div className="d-flex w-100 justify-content-between h-25">
               <h1>Game ID: {gameId}</h1>
               {isTeacher && (
                 <Row className="w-50 align-items-center">
@@ -43,14 +43,14 @@ const WaitingRoom = () => {
                           });
                       }}
                     >
-                      Start game
+                      Start
                     </Button>
                   </Col>
                 </Row>
               )}
             </div>
             <hr />
-            <div className="d-flex flex-column justify-content-center align-items-center">
+            <div className="d-flex flex-column justify-content-center align-items-center h-50">
               {showError && (
                 <Alert variant="danger" className="w-100" onClose={() => setShowError(false)} dismissible>
                   Not enough players to start the game.
