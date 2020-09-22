@@ -63,7 +63,7 @@ const JoinLink = () => {
               />
               <InputGroup.Append>
                 <Button
-                  variant={copiedStudent ? 'outline-success' : 'outline-secondary'}
+                  variant={copiedStudent ? 'success' : 'outline-secondary'}
                   onClick={copyStudent}
                 >
                   <Svg src={copiedStudent ? clipboardCheck : clipboard} classNames="icon" alt="Copy" />

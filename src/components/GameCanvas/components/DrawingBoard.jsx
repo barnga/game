@@ -71,6 +71,8 @@ const DrawingBoard = ({
     emitStrokeUpdate(strokeID.current, stroke);
   };
 
+  const throttledHandleStrokeDraw = throttle(handleStrokeDraw, 10);
+
   const handleStrokeEnd = () => {
     isDrawing.current = false;
   };
@@ -100,12 +102,14 @@ const DrawingBoard = ({
       // Set drawing handlers
       containerRef.current.addEventListener('mousedown', handleStrokeStart, false);
       containerRef.current.addEventListener('mouseup', handleStrokeEnd, false);
-      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, 10), false);
+      containerRef.current.addEventListener('mouseout', handleStrokeEnd, false);
+      containerRef.current.addEventListener('mousemove', throttledHandleStrokeDraw, false);
 
       // Touch support for mobile devices
       containerRef.current.addEventListener('touchstart', handleStrokeStart, false);
       containerRef.current.addEventListener('touchend', handleStrokeEnd, false);
-      containerRef.current.addEventListener('touchmove', throttle(handleStrokeDraw, 10), false);
+      containerRef.current.addEventListener('touchcancel', handleStrokeEnd, false);
+      containerRef.current.addEventListener('touchmove', throttledHandleStrokeDraw, false);
     }
 
     return () => {
@@ -116,12 +120,14 @@ const DrawingBoard = ({
         // Set drawing handlers
         containerRef.current.removeEventListener('mousedown', handleStrokeStart, false);
         containerRef.current.removeEventListener('mouseup', handleStrokeEnd, false);
-        containerRef.current.removeEventListener('mousemove', throttle(handleStrokeDraw, 10), false);
+        containerRef.current.removeEventListener('mouseout', handleStrokeEnd, false);
+        containerRef.current.removeEventListener('mousemove', throttledHandleStrokeDraw, false);
 
         // Touch support for mobile devices
         containerRef.current.removeEventListener('touchstart', handleStrokeStart, false);
         containerRef.current.removeEventListener('touchend', handleStrokeEnd, false);
-        containerRef.current.removeEventListener('touchmove', throttle(handleStrokeDraw, 10), false);
+        containerRef.current.removeEventListener('touchcancel', handleStrokeEnd, false);
+        containerRef.current.removeEventListener('touchmove', throttledHandleStrokeDraw, false);
       }
     };
   }, []);

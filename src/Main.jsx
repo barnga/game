@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { AppContext } from './contexts/Contexts';
 import injectStylesheet from './helpers/injectStylesheet';
 
-import themeColors from './assets/scss/user-variables.scss';
-
 const Main = ({ children }) => {
   const [isStylesheetLoaded, setIsStylesheetLoaded] = useState(false);
-  console.log(themeColors);
 
   useEffect(() => {
     injectStylesheet(() => setIsStylesheetLoaded(true));

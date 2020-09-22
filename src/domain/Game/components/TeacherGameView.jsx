@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import {
-  Col, Container, Row, Tabs, Tab, Button,
+  Col, Container, Row, Tab, Button, Card, Nav,
 } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
@@ -47,24 +47,36 @@ const TeacherGameView = () => {
   return (
     <>
       <Rulesheet isTeacher />
-      <Container fluid className="min-vh-100 d-flex flex-column justify-content-center p-0 m-0">
-        <Row className="vh-10 p-2 pt-5">
-          <p className="h1">Game ID: {gameId}</p>
-        </Row>
-        <Row className="min-vh-90 m-0 p-5">
-          <Col className="d-flex flex-column col-12 col-lg-3">
+      <Container fluid className="vh-100 d-flex flex-column justify-content-center p-5 m-0">
+        <Row className="h-100 m-0">
+          <Col lg={3} className="h-100 d-flex flex-column">
             <GameButtons />
             <Button onClick={() => socket.emit('change rooms')} className="mb-2">Change rooms</Button>
             <Chat global />
           </Col>
-          <Col className="col-12 col-lg-9">
-            <Tabs id="gameViewTabs">
-              {gameSettings.rooms?.map((room, idx) => (
-                <Tab eventKey={room.roomId} title={`Group ${idx + 1}`} key={room.roomId}>
-                  <TeacherGroupView room={room} />
-                </Tab>
-              ))}
-            </Tabs>
+          <Col className="h-100 d-flex flex-column">
+            <Card className="shadow-3d h-100 d-flex flex-grow-1 mb-0">
+              <Tab.Container id="teacherGroupTabs" defaultActiveKey={`tab${gameSettings.rooms[0].roomId}`}>
+                <Card.Header>
+                  <Nav variant="tabs">
+                    {gameSettings.rooms?.map((room, idx) => (
+                      <Nav.Item>
+                        <Nav.Link eventKey={`tab${room.roomId}`}>Group {idx + 1}</Nav.Link>
+                      </Nav.Item>
+                    ))}
+                  </Nav>
+                </Card.Header>
+                <Card.Body>
+                  <Tab.Content>
+                    {gameSettings.rooms?.map((room) => (
+                      <Tab.Pane eventKey={`tab${room.roomId}`} key={room.roomId} className="p-1">
+                        <TeacherGroupView room={room} />
+                      </Tab.Pane>
+                    ))}
+                  </Tab.Content>
+                </Card.Body>
+              </Tab.Container>
+            </Card>
           </Col>
         </Row>
       </Container>

@@ -7,7 +7,7 @@ const Leaderboard = () => {
   const [gameSettings] = gameState || [];
 
   return (
-    <Card className="mb-2">
+    <Card className="mb-2 shadow-3d">
       <Card.Body>
         <Card.Title>Leaderboard</Card.Title>
         <Card.Subtitle>Group {gameSettings?.roomNumber}</Card.Subtitle>

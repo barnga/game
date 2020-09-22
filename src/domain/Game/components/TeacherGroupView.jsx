@@ -6,32 +6,29 @@ import PropTypes from 'prop-types';
 import Chat from '../../../components/Chat/Chat';
 import GameCanvas from '../../../components/GameCanvas/GameCanvas';
 
-const TeacherGroupView = ({ room }) => {
-  const containerRef = useRef(null);
-  return (
-    <Row className="min-vh-90" ref={containerRef}>
-      <Col className="d-flex flex-column col-12 col-lg-3 pt-1">
-        <Card className="d-flex flex-grow-1 m-0 p-0 h-25 mb-1">
-          <Card.Body className="d-flex flex-column p-0">
-            <Card.Title className="p-3">Players</Card.Title>
-            <ListGroup variant="flush">
-              {Object.entries(room.players).map((player) => {
-                const [playerId, playerData] = player;
-                return (
-                  <ListGroup.Item key={playerId}>{playerData.nickname}</ListGroup.Item>
-                );
-              })}
-            </ListGroup>
-          </Card.Body>
-        </Card>
-        <Chat roomId={room.roomId} admin />
-      </Col>
-      <Col className="col-12 col-lg-9">
-        <GameCanvas containerRef={containerRef} roomId={room.roomId} teacherView />
-      </Col>
-    </Row>
-  );
-};
+const TeacherGroupView = ({ room }) => (
+  <Row className="h-100 p-1">
+    <Col lg={3} xl={4} className="h-100 d-flex flex-column col-12 p-1">
+      <Card className="d-flex flex-grow-1 m-0 p-0 h-25 mb-2">
+        <Card.Body className="d-flex flex-column">
+          <Card.Title className="px-1">Players</Card.Title>
+          <ListGroup variant="flush">
+            {Object.entries(room.players).map((player) => {
+              const [playerId, playerData] = player;
+              return (
+                <ListGroup.Item key={playerId}>{playerData.nickname}</ListGroup.Item>
+              );
+            })}
+          </ListGroup>
+        </Card.Body>
+      </Card>
+      <Chat roomId={room.roomId} admin />
+    </Col>
+    <Col lg={9} xl={8} className="col-12">
+      <GameCanvas roomId={room.roomId} teacherView />
+    </Col>
+  </Row>
+);
 
 TeacherGroupView.propTypes = {
   room: PropTypes.any,
