@@ -3,8 +3,13 @@ const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
 const cors = require('cors');
+const enforce = require('express-sslify');
 
 const app = express();
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
 
 app.use(cors());
 app.use(compression());
