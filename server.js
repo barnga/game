@@ -13,7 +13,7 @@ app.use(compression());
 app.use(helmet.contentSecurityPolicy({
   directives: {
     'default-src': ["'none'"],
-    'connect-src': ["'self'", "https://www.barnga-api.herokuapp.com"],
+    'connect-src': ["'self'", "https://*"],
     'script-src': ["'self'"],
     'style-src': ["'self'", "'unsafe-inline'"],
     'font-src': ["'self'"],
