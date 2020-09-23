@@ -14,7 +14,6 @@ const withSocket = (WrappedComponent) => {
           query: {
             sessionId: localStorage.sessionId,
           },
-          transports: ['websocket'],
         });
         setSocket(socketIo);
 
