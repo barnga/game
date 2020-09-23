@@ -13,7 +13,7 @@ app.use(compression());
 app.use(helmet.contentSecurityPolicy({
   directives: {
     'default-src': ["'none'"],
-    'connect-src': ["'self'", "https://*"],
+    'connect-src': ["'self'", "https://*", "wss://*"],
     'script-src': ["'self'"],
     'style-src': ["'self'", "'unsafe-inline'"],
     'font-src': ["'self'"],
