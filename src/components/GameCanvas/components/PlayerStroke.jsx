@@ -4,11 +4,22 @@ import {
   Line,
 } from 'react-konva';
 
-const PlayerStroke = (props) => {
-  const { points, color } = props;
-  const numericPoints = points.map((point) => [point.x, point.y]).flat();
+const PlayerStroke = ({ points, color, canvasDimensions }) => {
+  const numericPoints = points
+    .map((p) => ({
+      x: p.x * canvasDimensions.width,
+      y: p.y * canvasDimensions.height,
+    }))
+    .map((point) => [point.x, point.y]).flat();
 
-  return <Line points={numericPoints} stroke={color} strokeWidth={2} tension={0} />;
+  return (
+    <Line
+      points={numericPoints}
+      stroke={color}
+      strokeWidth={2}
+      tension={0}
+    />
+  );
 };
 
 PlayerStroke.propTypes = {
@@ -17,6 +28,10 @@ PlayerStroke.propTypes = {
     y: PropTypes.number,
   })),
   color: PropTypes.string,
+  canvasDimensions: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
 };
 
 export default PlayerStroke;
