@@ -10,7 +10,7 @@ const app = express();
 app.use(enforce.HTTPS({ trustProtoHeader: true }));
 app.use(cors());
 app.use(compression());
-app.use(helmet({
+app.use(helmet.contentSecurityPolicy({
   directives: {
     'default-src': ["'none'"],
     'connect-src': ["'self", "https://www.barnga-api.herokuapp.com"],
