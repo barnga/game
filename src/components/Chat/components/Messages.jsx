@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import Svg from '../../Svg';
 import groupchat from '../../../assets/img/icons/theme/communication/group-chat.svg';
+import themeColors from '../../../assets/scss/user-variables.scss';
 
 const Messages = ({ global, admin, roomId }) => {
   const { socket } = useContext(SocketContext) || {};
@@ -76,23 +77,24 @@ const Messages = ({ global, admin, roomId }) => {
     <div className="d-flex flex-column flex-grow-1 overflow-auto">
       {(admin ? gameSettings.roomMessages[roomId] : gameSettings.messages)?.map((message, idx) => {
         const messageList = admin ? gameSettings.roomMessages[roomId] : gameSettings.messages;
-        const newSender = (idx === 0 || messageList[idx - 1].sender !== message.sender);
+        const newSender = idx === 0
+            || (messageList[idx - 1].sender.socketId !== message.sender.socketId);
         backgroundDark = (newSender && !message.global)
           ? !backgroundDark
           : backgroundDark; // Dont toggle if message is global
 
-        const key = `${message.sender}_${idx}`;
-        const backgroundColor = (backgroundDark ? '#ffffff' : '#f3f3f3');
+        const key = `${message.sender.socketId}_${idx}`;
+        const backgroundColor = (backgroundDark ? '#ffffff' : themeColors.light);
 
         return (
           <div
             style={{
-              backgroundColor: (message.global ? '#fff7df' : backgroundColor),
+              backgroundColor: (message.global ? themeColors['primary-2'] : backgroundColor),
             }}
             key={key}
             className="px-3 pt-1"
           >
-            {newSender ? <strong className="mb-0">{message.sender}</strong> : undefined}
+            {newSender ? <strong className="mb-0">{message.sender.nickname}</strong> : undefined}
             <p className="p-0 mb-0">{message.body}</p>
           </div>
         );

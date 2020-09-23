@@ -31,14 +31,16 @@ module.exports = (env) => ({
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader',
-        ],
+        use: [{
+          loader: 'style-loader', // creates style nodes from JS strings
+        }, {
+          loader: 'css-loader',
+          options: {
+            modules: true,
+          },
+        }, {
+          loader: 'sass-loader', // compiles Sass to CSS
+        }],
       },
     ],
   },

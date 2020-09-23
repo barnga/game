@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import PlayerStroke from './PlayerStroke';
 import { GameContext } from '../../../contexts/Contexts';
 
-const TeacherDrawingBoard = ({ socket, roomId }) => {
+const TeacherDrawingBoard = ({ socket, roomId, canvasDimensions }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
 
@@ -59,6 +59,7 @@ const TeacherDrawingBoard = ({ socket, roomId }) => {
             <PlayerStroke
               points={tempStrokes[key].points}
               color={tempStrokes[key].color}
+              canvasDimensions={canvasDimensions}
               key={key}
             />
           ))}
@@ -72,6 +73,10 @@ const TeacherDrawingBoard = ({ socket, roomId }) => {
 TeacherDrawingBoard.propTypes = {
   socket: PropTypes.any,
   roomId: PropTypes.string,
+  canvasDimensions: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
 };
 
 export default TeacherDrawingBoard;

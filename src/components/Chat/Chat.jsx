@@ -5,9 +5,9 @@ import ChatForm from './components/ChatForm';
 import Messages from './components/Messages';
 
 const Chat = ({ global, admin, roomId }) => (
-  <Card className="d-flex flex-grow-1 m-0 p-0">
+  <Card className={`d-flex flex-grow-1 m-0 p-0 ${(global || !admin) ? 'shadow-3d' : undefined}`} style={{ flex: 'initial' }}>
     <Card.Body className="d-flex flex-column p-0">
-      <Card.Title className="p-3">{global ? 'Global Chat' : 'Chat'}</Card.Title>
+      <Card.Title className="p-3 pb-0">{global ? 'Global Chat' : 'Chat'}</Card.Title>
       <div className="d-flex flex-column flex-grow-1 w-100">
         <Messages global={global} roomId={roomId} admin={admin} />
         <ChatForm global={global} roomId={roomId} admin={admin} />

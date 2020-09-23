@@ -1,12 +1,12 @@
 import React, {
-  useContext, useEffect, useRef, useState,
+  useContext, useEffect, useRef, useState, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import PlayerStroke from './PlayerStroke';
 import { GameContext } from '../../../contexts/Contexts';
 
 const DrawingBoard = ({
-  containerRef, stageRef, socket, colorRef, clearRef,
+  containerRef, stageRef, socket, colorRef, canvasDimensions,
 }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
@@ -20,6 +20,11 @@ const DrawingBoard = ({
     localStrokes.current = gameSettings.strokes;
     updater((v) => v + 1);
   }, [gameSettings.strokes]);
+
+  const getRelativePoint = useCallback((point) => ({
+    x: point.x / canvasDimensions.width,
+    y: point.y / canvasDimensions.height,
+  }), [canvasDimensions]);
 
   // limit the number of events per second
   const throttle = (callback, delay) => {
@@ -50,7 +55,7 @@ const DrawingBoard = ({
     strokeID.current = newID;
     const stroke = {
       color: colorRef.current,
-      points: [stageRef.current.getStage().getPointerPosition()],
+      points: [getRelativePoint(stageRef.current.getStage().getPointerPosition())],
     };
 
     emitStrokeUpdate(newID, stroke);
@@ -64,12 +69,14 @@ const DrawingBoard = ({
     const stroke = {
       color: colorRef.current,
       points: localStrokes.current[strokeID.current].points.concat(
-        [stageRef.current.getStage().getPointerPosition()],
+        [getRelativePoint(stageRef.current.getStage().getPointerPosition())],
       ),
     };
 
     emitStrokeUpdate(strokeID.current, stroke);
   };
+
+  const throttledHandleStrokeDraw = throttle(handleStrokeDraw, 10);
 
   const handleStrokeEnd = () => {
     isDrawing.current = false;
@@ -100,12 +107,14 @@ const DrawingBoard = ({
       // Set drawing handlers
       containerRef.current.addEventListener('mousedown', handleStrokeStart, false);
       containerRef.current.addEventListener('mouseup', handleStrokeEnd, false);
-      containerRef.current.addEventListener('mousemove', throttle(handleStrokeDraw, 10), false);
+      containerRef.current.addEventListener('mouseout', handleStrokeEnd, false);
+      containerRef.current.addEventListener('mousemove', throttledHandleStrokeDraw, false);
 
       // Touch support for mobile devices
       containerRef.current.addEventListener('touchstart', handleStrokeStart, false);
       containerRef.current.addEventListener('touchend', handleStrokeEnd, false);
-      containerRef.current.addEventListener('touchmove', throttle(handleStrokeDraw, 10), false);
+      containerRef.current.addEventListener('touchcancel', handleStrokeEnd, false);
+      containerRef.current.addEventListener('touchmove', throttledHandleStrokeDraw, false);
     }
 
     return () => {
@@ -116,15 +125,17 @@ const DrawingBoard = ({
         // Set drawing handlers
         containerRef.current.removeEventListener('mousedown', handleStrokeStart, false);
         containerRef.current.removeEventListener('mouseup', handleStrokeEnd, false);
-        containerRef.current.removeEventListener('mousemove', throttle(handleStrokeDraw, 10), false);
+        containerRef.current.removeEventListener('mouseout', handleStrokeEnd, false);
+        containerRef.current.removeEventListener('mousemove', throttledHandleStrokeDraw, false);
 
         // Touch support for mobile devices
         containerRef.current.removeEventListener('touchstart', handleStrokeStart, false);
         containerRef.current.removeEventListener('touchend', handleStrokeEnd, false);
-        containerRef.current.removeEventListener('touchmove', throttle(handleStrokeDraw, 10), false);
+        containerRef.current.removeEventListener('touchcancel', handleStrokeEnd, false);
+        containerRef.current.removeEventListener('touchmove', throttledHandleStrokeDraw, false);
       }
     };
-  }, []);
+  }, [canvasDimensions, getRelativePoint]);
 
   if (Object.keys(localStrokes.current).length > 0) {
     return (
@@ -134,6 +145,7 @@ const DrawingBoard = ({
             <PlayerStroke
               points={localStrokes.current[key].points}
               color={localStrokes.current[key].color}
+              canvasDimensions={canvasDimensions}
               key={key}
             />
           ))}
@@ -146,11 +158,14 @@ const DrawingBoard = ({
 
 DrawingBoard.propTypes = {
   stageRef: PropTypes.any,
-  clearRef: PropTypes.any,
   containerRef: PropTypes.any,
   socket: PropTypes.any,
   gameState: PropTypes.any,
   colorRef: PropTypes.any,
+  canvasDimensions: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
 };
 
 export default DrawingBoard;
