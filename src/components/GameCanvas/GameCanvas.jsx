@@ -13,7 +13,7 @@ import Winner from './components/Winner';
 import themeColors from '../../assets/scss/user-variables.scss';
 
 const GameCanvas = ({
-  brushColorRef, teacherView, roomId,
+  brushColorRef, teacherView, roomId, aspectRatio = 1.618,
 }) => {
   const { socket } = useContext(SocketContext) || {};
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
@@ -22,10 +22,22 @@ const GameCanvas = ({
 
   useEffect(() => {
     const setDimensions = () => {
-      setCanvasDimensions({
+      const dimensions = {
         height: containerRef?.current?.offsetHeight,
         width: containerRef?.current?.offsetWidth,
-      });
+      };
+
+      if (dimensions.height * aspectRatio > dimensions.width) {
+        setCanvasDimensions({
+          height: dimensions.width / aspectRatio,
+          width: dimensions.width,
+        });
+      } else {
+        setCanvasDimensions({
+          height: dimensions.height,
+          width: dimensions.height * aspectRatio,
+        });
+      }
     };
 
     setDimensions();
@@ -37,7 +49,7 @@ const GameCanvas = ({
   }, []);
 
   return (
-    <div className="h-100 w-100" ref={containerRef}>
+    <div className="h-100 w-100 justify-content-center align-content-center" ref={containerRef}>
       <GameContext.Consumer>
         {(value) => (
           <Stage width={canvasDimensions.width} height={canvasDimensions.height} ref={stageRef}>
@@ -68,6 +80,7 @@ const GameCanvas = ({
                     <TeacherDrawingBoard
                       socket={socket}
                       roomId={roomId}
+                      canvasDimensions={canvasDimensions}
                     />
                   )
                   : (
@@ -76,6 +89,7 @@ const GameCanvas = ({
                       stageRef={stageRef}
                       socket={socket}
                       colorRef={brushColorRef}
+                      canvasDimensions={canvasDimensions}
                     />
                   )}
               </Layer>
@@ -96,6 +110,7 @@ GameCanvas.propTypes = {
   brushColorRef: PropTypes.any,
   teacherView: PropTypes.bool,
   roomId: PropTypes.string,
+  aspectRatio: PropTypes.number,
 };
 
 export default GameCanvas;

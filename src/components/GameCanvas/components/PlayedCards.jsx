@@ -20,6 +20,11 @@ const PlayedCards = ({ canvasDimensions }) => {
   const cardHeight = canvasDimensions.height / 4;
   const cardWidth = cardHeight / 1.4;
 
+  const playAreaDimensions = {
+    width: canvasDimensions.width * 0.5,
+    height: canvasDimensions.height * 0.3,
+  };
+
   return (
     <>
       {playedCards ? (
@@ -44,10 +49,16 @@ const PlayedCards = ({ canvasDimensions }) => {
         <>
           <Rect
             fill="#dddddd"
-            height={100}
-            width={300}
+            height={playAreaDimensions.height}
+            width={playAreaDimensions.width}
           />
-          <Text text="Play area" verticalAlign="middle" align="center" height={100} width={300} />
+          <Text
+            text="Play area"
+            verticalAlign="middle"
+            align="center"
+            height={playAreaDimensions.height}
+            width={playAreaDimensions.width}
+          />
         </>
       )}
     </>
@@ -56,7 +67,10 @@ const PlayedCards = ({ canvasDimensions }) => {
 
 PlayedCards.propTypes = {
   socket: PropTypes.any,
-  canvasDimensions: PropTypes.any,
+  canvasDimensions: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
 };
 
 export default PlayedCards;

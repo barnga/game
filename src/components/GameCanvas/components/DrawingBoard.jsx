@@ -1,12 +1,12 @@
 import React, {
-  useContext, useEffect, useRef, useState,
+  useContext, useEffect, useRef, useState, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import PlayerStroke from './PlayerStroke';
 import { GameContext } from '../../../contexts/Contexts';
 
 const DrawingBoard = ({
-  containerRef, stageRef, socket, colorRef, clearRef,
+  containerRef, stageRef, socket, colorRef, canvasDimensions,
 }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
@@ -20,6 +20,11 @@ const DrawingBoard = ({
     localStrokes.current = gameSettings.strokes;
     updater((v) => v + 1);
   }, [gameSettings.strokes]);
+
+  const getRelativePoint = useCallback((point) => ({
+    x: point.x / canvasDimensions.width,
+    y: point.y / canvasDimensions.height,
+  }), [canvasDimensions]);
 
   // limit the number of events per second
   const throttle = (callback, delay) => {
@@ -50,7 +55,7 @@ const DrawingBoard = ({
     strokeID.current = newID;
     const stroke = {
       color: colorRef.current,
-      points: [stageRef.current.getStage().getPointerPosition()],
+      points: [getRelativePoint(stageRef.current.getStage().getPointerPosition())],
     };
 
     emitStrokeUpdate(newID, stroke);
@@ -64,7 +69,7 @@ const DrawingBoard = ({
     const stroke = {
       color: colorRef.current,
       points: localStrokes.current[strokeID.current].points.concat(
-        [stageRef.current.getStage().getPointerPosition()],
+        [getRelativePoint(stageRef.current.getStage().getPointerPosition())],
       ),
     };
 
@@ -130,7 +135,7 @@ const DrawingBoard = ({
         containerRef.current.removeEventListener('touchmove', throttledHandleStrokeDraw, false);
       }
     };
-  }, []);
+  }, [canvasDimensions, getRelativePoint]);
 
   if (Object.keys(localStrokes.current).length > 0) {
     return (
@@ -140,6 +145,7 @@ const DrawingBoard = ({
             <PlayerStroke
               points={localStrokes.current[key].points}
               color={localStrokes.current[key].color}
+              canvasDimensions={canvasDimensions}
               key={key}
             />
           ))}
@@ -152,11 +158,14 @@ const DrawingBoard = ({
 
 DrawingBoard.propTypes = {
   stageRef: PropTypes.any,
-  clearRef: PropTypes.any,
   containerRef: PropTypes.any,
   socket: PropTypes.any,
   gameState: PropTypes.any,
   colorRef: PropTypes.any,
+  canvasDimensions: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
 };
 
 export default DrawingBoard;
