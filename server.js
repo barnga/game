@@ -12,12 +12,12 @@ app.use(cors());
 app.use(compression());
 app.use(helmet({
   directives: {
-    'default-src': ['none'],
-    'connect-src': ['self', 'https://www.barnga-api.herokuapp.com'],
-    'script-src': ['self'],
-    'style-src': ['self'],
-    'font-src': ['self'],
-    'img-src': ['self'],
+    'default-src': ["'none'"],
+    'connect-src': ["'self", "https://www.barnga-api.herokuapp.com"],
+    'script-src': ["'self'"],
+    'style-src': ["'self'", "'unsafe-inline"],
+    'font-src': ["'self'"],
+    'img-src': ["'self'"],
   },
 }));
 app.disable('x-powered-by');
