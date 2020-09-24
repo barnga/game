@@ -1,38 +1,32 @@
 import React, {
-  useContext, useEffect, useRef, useState,
+  useContext, useEffect, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import PlayerStroke from './PlayerStroke';
-import { GameContext } from '../../../contexts/Contexts';
+import { StrokesContext } from '../../../contexts/Contexts';
 
 const TeacherDrawingBoard = ({ socket, roomId, canvasDimensions }) => {
-  const { gameState } = useContext(GameContext) || {};
-  const [gameSettings, setGameSettings] = gameState || [];
+  const { strokesState } = useContext(StrokesContext) || {};
+  const [strokesSettings, setStrokesSettings] = strokesState || [];
+  const strokes = strokesSettings.roomStrokes[roomId] ?? {};
 
-  const localStrokes = useRef({});
-  const [tempStrokes, setTempStrokes] = useState({});
-
-  useEffect(() => {
-    localStrokes.current = gameSettings.roomStrokes[roomId] ?? {};
-    setTempStrokes(localStrokes.current);
-  }, [gameSettings.roomStrokes[roomId]]);
-
-  const handleStrokeUpdate = (data) => {
+  const handleStrokeUpdate = useCallback((data) => {
     if (data.roomId !== roomId) return;
     const { stroke } = data;
     const updateStrokeID = Object.keys(stroke)[0];
-    localStrokes.current[updateStrokeID] = stroke[updateStrokeID];
+    const newStrokes = strokes ?? {};
+    newStrokes[updateStrokeID] = stroke[updateStrokeID];
 
-    setGameSettings((settings) => {
+    setStrokesSettings((settings) => {
       const { roomStrokes } = settings;
-      roomStrokes[roomId] = localStrokes.current;
+      roomStrokes[roomId] = newStrokes;
 
       return ({
         ...settings,
         roomStrokes,
       });
     });
-  };
+  }, [strokesSettings]);
 
   useEffect(() => {
     let subscribed = true;
@@ -49,16 +43,16 @@ const TeacherDrawingBoard = ({ socket, roomId, canvasDimensions }) => {
       subscribed = false;
       socket.off('strokes update room', onStrokeUpdateRoom);
     };
-  }, []);
+  }, [handleStrokeUpdate]);
 
-  if (Object.keys(tempStrokes).length > 0) {
+  if (Object.keys(strokes ?? {}).length > 0) {
     return (
       <>
-        {Object.keys(tempStrokes)
+        {Object.keys(strokes ?? {})
           .map((key) => (
             <PlayerStroke
-              points={tempStrokes[key].points}
-              color={tempStrokes[key].color}
+              points={strokes[key].points}
+              color={strokes[key].color}
               canvasDimensions={canvasDimensions}
               key={key}
             />

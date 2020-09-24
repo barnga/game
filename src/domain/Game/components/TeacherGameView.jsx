@@ -2,16 +2,15 @@ import React, { useContext, useEffect } from 'react';
 import {
   Col, Container, Row, Tab, Button, Card, Nav,
 } from 'react-bootstrap';
-import { useParams } from 'react-router';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import Loading from '../../../components/Loading';
 import GameButtons from '../../../components/GameButtons';
 import Chat from '../../../components/Chat/Chat';
 import TeacherGroupView from './TeacherGroupView';
 import Rulesheet from '../../../components/Rulesheet/Rulesheet';
+import withStrokes from '../../../hocs/withStrokes';
 
 const TeacherGameView = () => {
-  const { gameId } = useParams();
   const { socket } = useContext(SocketContext);
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
@@ -60,7 +59,7 @@ const TeacherGameView = () => {
                 <Card.Header>
                   <Nav variant="tabs">
                     {gameSettings.rooms?.map((room, idx) => (
-                      <Nav.Item>
+                      <Nav.Item key={room.roomId}>
                         <Nav.Link eventKey={`tab${room.roomId}`}>Group {idx + 1}</Nav.Link>
                       </Nav.Item>
                     ))}
@@ -84,4 +83,4 @@ const TeacherGameView = () => {
   );
 };
 
-export default TeacherGameView;
+export default withStrokes(TeacherGameView);
