@@ -17,7 +17,7 @@ app.use(helmet.contentSecurityPolicy({
     'script-src': ["'self'"],
     'style-src': ["'self'", "'unsafe-inline'"],
     'font-src': ["'self'"],
-    'img-src': ["'self' data:"],
+    'img-src': ["'self'", "data:"],
   },
 }));
 app.disable('x-powered-by');
