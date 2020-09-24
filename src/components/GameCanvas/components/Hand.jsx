@@ -10,10 +10,12 @@ const Hand = ({ socket, canvasDimensions }) => {
   const [cardImages, setCardImages] = useState(null);
 
   useEffect(() => {
-    if (gameSettings.hand) {
-      const updatedHand = gameSettings.hand.map(generateCardImage);
-      setCardImages(updatedHand);
-    }
+    (async () => {
+      if (gameSettings.hand) {
+        const updatedHand = await Promise.all(gameSettings.hand.map(generateCardImage));
+        setCardImages(updatedHand);
+      }
+    })();
   }, [gameState]);
 
   const cardHeight = canvasDimensions.height / 4;

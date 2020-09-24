@@ -7,13 +7,19 @@ const enforce = require('express-sslify');
 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(enforce.HTTPS({ trustProtoHeader: true }));
-}
-
+app.use(enforce.HTTPS({ trustProtoHeader: true }));
 app.use(cors());
 app.use(compression());
-app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+  directives: {
+    'default-src': ["'none'"],
+    'connect-src': ["'self'", "https://*", "wss://*"],
+    'script-src': ["'self'"],
+    'style-src': ["'self'", "'unsafe-inline'"],
+    'font-src': ["'self'"],
+    'img-src': ["'self' data:"],
+  },
+}));
 app.disable('x-powered-by');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'build')));

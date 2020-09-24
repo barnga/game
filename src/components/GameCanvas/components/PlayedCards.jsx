@@ -10,11 +10,13 @@ const PlayedCards = ({ canvasDimensions }) => {
   const [playedCards, setPlayedCards] = useState(null);
 
   useEffect(() => {
-    if (gameSettings.playedCards) {
-      const updatedPlayedCards = gameSettings.playedCards
-        .map((cardData) => generateCardImage(cardData.playedCard));
-      setPlayedCards(updatedPlayedCards);
-    }
+    (async () => {
+      if (gameSettings.playedCards) {
+        const updatedPlayedCards = await Promise.all(gameSettings.playedCards
+          .map((cardData) => generateCardImage(cardData.playedCard)));
+        setPlayedCards(updatedPlayedCards);
+      }
+    })();
   }, [gameState]);
 
   const cardHeight = canvasDimensions.height / 4;
