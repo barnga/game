@@ -18,14 +18,14 @@ const Team = () => (
           <img src={seq} alt="Sequoyah Sudler" className="avatar avatar-xlg mr-3" />
           <div>
             <h5 className="mb-0">Sequoyah Sudler</h5>
-            <p>Lead Developer</p>
+            <p>Lead Full Stack Developer</p>
           </div>
         </div>
         <div className="col-sm-6 col-lg-4 d-flex align-items-center mb-5">
           <img src={dylan} alt="Dylan Marchlinski" className="avatar avatar-xlg mr-3" />
           <div>
             <h5 className="mb-0">Dylan Marchlinski</h5>
-            <p>Developer</p>
+            <p>Frontend Developer</p>
           </div>
         </div>
         <div className="col-sm-6 col-lg-4 d-flex align-items-center mb-5">
@@ -39,7 +39,7 @@ const Team = () => (
           <img src={robert} alt="Robert May" className="avatar avatar-xlg mr-3" />
           <div>
             <h5 className="mb-0">Robert May</h5>
-            <p>Backend Devloper</p>
+            <p>Full Stack Developer</p>
           </div>
         </div>
         <div className="col-sm-6 col-lg-4 d-flex align-items-center mb-5">

@@ -15,8 +15,6 @@ const VotingModal = () => {
         ...settings,
         showVoting: false,
       }))}
-      backdrop="static"
-      keyboard={false}
     >
       <Modal.Header>
         <div>
@@ -24,6 +22,7 @@ const VotingModal = () => {
           <span>
             Choose one player to win the round.
             In the event of a tie, the winner will be decided by random chance.
+            The round will not end until all players have voted.
           </span>
         </div>
       </Modal.Header>

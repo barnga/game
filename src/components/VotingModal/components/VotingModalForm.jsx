@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'react-bootstrap';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
@@ -9,18 +9,36 @@ const VotingModalForm = () => {
   const [gameSettings, setGameSettings] = gameState || [];
   const { socket } = useContext(SocketContext) || {};
 
+  useEffect(() => {
+    const handleVoteUpdate = (votes) => {
+      setGameSettings((settings) => ({
+        ...settings,
+        hasVoted: votes
+          .map((vote) => vote.voterId)
+          .filter((id) => id === localStorage.sessionId).length > 0,
+      }));
+    };
+
+    socket.on('vote update', handleVoteUpdate);
+
+    return () => socket.off('vote update', handleVoteUpdate);
+  }, []);
+
   return (
     <Formik
+      enableReinitialize
       initialValues={{
         vote: '',
       }}
       onSubmit={(values, { resetForm }) => {
-        handleSubmitVote({ socket, vote: values.vote });
-        setGameSettings((settings) => ({
-          ...settings,
-          showVoting: false,
-        }));
-        resetForm();
+        if (values.vote.length !== 0) {
+          setGameSettings((settings) => ({
+            ...settings,
+            showVoting: false,
+          }));
+          handleSubmitVote({ socket, vote: values.vote });
+          resetForm();
+        }
       }}
     >
       <Form>
@@ -36,7 +54,7 @@ const VotingModalForm = () => {
           })}
         </div>
         <div className="form-group">
-          <Button block variant="primary" type="submit">Vote</Button>
+          <Button block variant="primary" type="submit" disabled={gameSettings.hasVoted}>Vote</Button>
         </div>
       </Form>
     </Formik>

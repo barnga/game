@@ -51,7 +51,7 @@ const TeacherGameView = () => {
         <Row className="h-100 m-0">
           <Col lg={3} className="h-100 d-flex flex-column">
             <GameButtons />
-            <Button onClick={() => socket.emit('change rooms')} className="mb-2">Change rooms</Button>
+            <Button onClick={() => socket.emit('change rooms')} className="mb-2">Shuffle rooms</Button>
             <Chat global />
           </Col>
           <Col className="h-100 d-flex flex-column">

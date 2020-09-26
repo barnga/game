@@ -56,6 +56,8 @@ const PlayerGameView = () => {
           roundSettings: data.roundSettings,
           hand: data.players[localStorage.sessionId].hand,
           showVoting: data.showVoting,
+          disableRules: data.disableRules,
+          disableChat: data.disableChat,
         }));
       }
     };
