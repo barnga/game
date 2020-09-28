@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from 'react';
 import {
   Col, Container, Row, Tab, Button, Card, Nav,
 } from 'react-bootstrap';
-import { useParams } from 'react-router';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import Loading from '../../../components/Loading';
 import GameButtons from '../../../components/GameButtons';
@@ -11,7 +10,6 @@ import TeacherGroupView from './TeacherGroupView';
 import Rulesheet from '../../../components/Rulesheet/Rulesheet';
 
 const TeacherGameView = () => {
-  const { gameId } = useParams();
   const { socket } = useContext(SocketContext);
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];

@@ -40,7 +40,7 @@ const PlayedCards = ({ canvasDimensions }) => {
                 image={card}
                 height={cardHeight}
                 width={cardWidth}
-                x={idx * cardWidth}
+                x={idx * 50}
                 stroke="black"
                 key={parsedCardName}
               />

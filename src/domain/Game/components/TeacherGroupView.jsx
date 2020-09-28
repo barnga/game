@@ -1,13 +1,15 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext } from 'react';
 import {
   Card, Col, Row, ListGroup, Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Chat from '../../../components/Chat/Chat';
 import GameCanvas from '../../../components/GameCanvas/GameCanvas';
-import { GameContext } from '../../../contexts/Contexts';
+import { GameContext, SocketContext } from '../../../contexts/Contexts';
+import handleStartNewRound from '../scripts/handleStartNewRound';
 
 const TeacherGroupView = ({ room }) => {
+  const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
 
@@ -49,6 +51,13 @@ const TeacherGroupView = ({ room }) => {
         </Row>
         <Row className="d-flex flex-row justify-content-center">
           <Col>
+            <Button
+              block
+              variant="outline-primary"
+              onClick={() => handleStartNewRound(socket, room.roomId)}
+            >
+              Redeal Cards
+            </Button>
             <Button
               block
               variant="outline-primary"
