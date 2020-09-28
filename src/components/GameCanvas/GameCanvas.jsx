@@ -93,11 +93,11 @@ const GameCanvas = ({
                     />
                   )}
               </Layer>
-              <Winner canvasDimensions={canvasDimensions} />
               <Hand
                 socket={socket}
                 canvasDimensions={canvasDimensions}
               />
+              <Winner canvasDimensions={canvasDimensions} />
             </GameContext.Provider>
           </Stage>
         )}

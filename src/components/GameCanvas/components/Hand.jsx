@@ -9,36 +9,41 @@ const Hand = ({ socket, canvasDimensions }) => {
   const [gameSettings] = gameState || [];
   const [cardImages, setCardImages] = useState(null);
 
-  useEffect(() => {
-    (async () => {
-      if (gameSettings.hand) {
-        const updatedHand = await Promise.all(gameSettings.hand.map(generateCardImage));
-        setCardImages(updatedHand);
-      }
-    })();
-  }, [gameState]);
-
   const cardHeight = canvasDimensions.height / 4;
   const cardWidth = cardHeight / 1.4;
 
   const offsetX = ((canvasDimensions.width / 2) - (((gameSettings.hand?.length + 1) * 30) / 2));
   const offsetY = (canvasDimensions.height - cardHeight) - 20;
 
+  useEffect(() => {
+    (async () => {
+      if (gameSettings.hand) {
+        const updatedHand = await Promise.all(gameSettings.hand.map(async (card) => ({
+          img: await generateCardImage(card),
+          style: {
+            stroke: 'black',
+          },
+        })));
+        setCardImages(updatedHand);
+      }
+    })();
+  }, [gameState]);
+
   if (!cardImages) return <></>;
 
   return (
     <Layer x={offsetX} y={offsetY}>
       {cardImages.map((card, idx) => {
-        const [cardName] = card.src.split('/').slice(-1);
+        const [cardName] = card.img.src.split('/').slice(-1);
         const parsedCardName = cardName.split('.svg')[0];
 
         return (
           <Image
-            image={card}
+            image={card.img}
             height={cardHeight}
             width={cardWidth}
             x={idx * 30}
-            stroke="black"
+            stroke={card.style.stroke}
             key={parsedCardName}
             onClick={() => {
               if (gameSettings.turn === localStorage.sessionId) {
@@ -47,6 +52,16 @@ const Hand = ({ socket, canvasDimensions }) => {
                 console.log('It is not your turn!');
               }
             }}
+            // onMouseEnter={(event) => setCardImages((cards) => {
+            //   const updatedCards = cards;
+            //   updatedCards[event.target.index].style.stroke = 'red';
+            //   return updatedCards;
+            // })}
+            // onMouseLeave={(event) => setCardImages((cards) => {
+            //   const updatedCards = cards;
+            //   updatedCards[event.target.index].style.stroke = 'black';
+            //   return updatedCards;
+            // })}
           />
         );
       })}
