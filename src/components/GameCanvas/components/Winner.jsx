@@ -11,8 +11,6 @@ const Winner = ({ canvasDimensions }) => {
       <Layer
         x={(canvasDimensions.width / 2) - (450 / 2)}
         y={(canvasDimensions.height / 2) - (450 / 2)}
-        height={450}
-        width={450}
       >
         <Rect fill="white" opacity={0.75} top={0} left={0} height={450} width={450} />
         <Text

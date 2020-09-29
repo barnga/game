@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Field, Form, Formik } from 'formik';
 import { Button } from 'react-bootstrap';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
@@ -8,21 +8,6 @@ const VotingModalForm = () => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
   const { socket } = useContext(SocketContext) || {};
-
-  useEffect(() => {
-    const handleVoteUpdate = (votes) => {
-      setGameSettings((settings) => ({
-        ...settings,
-        hasVoted: votes
-          .map((vote) => vote.voterId)
-          .filter((id) => id === localStorage.sessionId).length > 0,
-      }));
-    };
-
-    socket.on('vote update', handleVoteUpdate);
-
-    return () => socket.off('vote update', handleVoteUpdate);
-  }, []);
 
   return (
     <Formik

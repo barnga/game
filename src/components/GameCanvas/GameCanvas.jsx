@@ -70,26 +70,6 @@ const GameCanvas = ({
                         ? themeColors.success : themeColors.primary}
                       style={{ border: '2px solid red' }}
                     />
-<<<<<<< HEAD
-                  )
-                  : (
-                    <DrawingBoard
-                      containerRef={containerRef}
-                      stageRef={stageRef}
-                      socket={socket}
-                      colorRef={brushColorRef}
-                      canvasDimensions={canvasDimensions}
-                    />
-                  )}
-              </Layer>
-              <Hand
-                socket={socket}
-                canvasDimensions={canvasDimensions}
-              />
-              <Winner canvasDimensions={canvasDimensions} />
-            </GameContext.Provider>
-          </Stage>
-=======
                   </Layer>
                   <Layer
                     x={(canvasDimensions.width / 2) - (300 / 2)}
@@ -127,7 +107,6 @@ const GameCanvas = ({
               </Stage>
             )}
           </StrokesContext.Consumer>
->>>>>>> f7f65ede22b733e29bcf6bac5cc2a5d3c8b7572c
         )}
       </GameContext.Consumer>
     </div>

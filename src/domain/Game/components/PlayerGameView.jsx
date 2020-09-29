@@ -65,13 +65,25 @@ const PlayerGameView = () => {
       }
     };
 
+    const handleVoteUpdate = (votes) => {
+      console.log(votes);
+      setGameSettings((settings) => ({
+        ...settings,
+        hasVoted: votes
+          .map((vote) => vote.voterId)
+          .filter((id) => id === localStorage.sessionId).length > 0,
+      }));
+    };
+
     socket.emit('joined room', handleRoomJoin);
     socket.on('game update', handleGameUpdate);
+    socket.on('vote update', handleVoteUpdate);
 
     return () => {
       subscribed = false;
       socket.off('joined room', handleRoomJoin);
       socket.off('game update', handleGameUpdate);
+      socket.off('vote update', handleVoteUpdate);
     };
   }, []);
 
