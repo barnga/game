@@ -1,25 +1,19 @@
 import React, {
-  useContext, useEffect, useRef, useState, useCallback,
+  useContext, useEffect, useRef, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
 import PlayerStroke from './PlayerStroke';
-import { GameContext } from '../../../contexts/Contexts';
+import { StrokesContext } from '../../../contexts/Contexts';
 
 const DrawingBoard = ({
   containerRef, stageRef, socket, colorRef, canvasDimensions,
 }) => {
-  const { gameState } = useContext(GameContext) || {};
-  const [gameSettings, setGameSettings] = gameState || [];
+  const { strokesState } = useContext(StrokesContext) || {};
+  const [strokesSettings, setStrokesSettings] = strokesState || [];
+  const { strokes } = strokesSettings;
 
-  const localStrokes = useRef({});
-  const [updates, updater] = useState(0);
   const isDrawing = useRef(false);
   const strokeID = useRef(0);
-
-  useEffect(() => {
-    localStrokes.current = gameSettings.strokes;
-    updater((v) => v + 1);
-  }, [gameSettings.strokes]);
 
   const getRelativePoint = useCallback((point) => ({
     x: point.x / canvasDimensions.width,
@@ -63,12 +57,12 @@ const DrawingBoard = ({
 
   const handleStrokeDraw = () => {
     if (!isDrawing.current) return;
-    if (!localStrokes.current[strokeID.current]) return;
+    if (!strokes[strokeID.current]) return;
 
     // Define stroke
     const stroke = {
       color: colorRef.current,
-      points: localStrokes.current[strokeID.current].points.concat(
+      points: strokes[strokeID.current].points.concat(
         [getRelativePoint(stageRef.current.getStage().getPointerPosition())],
       ),
     };
@@ -82,15 +76,15 @@ const DrawingBoard = ({
     isDrawing.current = false;
   };
 
-  const handleStrokeUpdate = (stroke) => {
+  const handleStrokeUpdate = useCallback((stroke) => {
     const updateStrokeID = Object.keys(stroke)[0];
-    localStrokes.current[updateStrokeID] = stroke[updateStrokeID];
+    strokes[updateStrokeID] = stroke[updateStrokeID];
 
-    setGameSettings((settings) => ({
+    setStrokesSettings((settings) => ({
       ...settings,
-      strokes: localStrokes.current,
+      strokes,
     }));
-  };
+  }, [strokesSettings]);
 
   useEffect(() => {
     let subscribed = true;
@@ -135,16 +129,16 @@ const DrawingBoard = ({
         containerRef.current.removeEventListener('touchmove', throttledHandleStrokeDraw, false);
       }
     };
-  }, [canvasDimensions, getRelativePoint]);
+  }, [canvasDimensions, getRelativePoint, handleStrokeUpdate]);
 
-  if (Object.keys(localStrokes.current).length > 0) {
+  if (Object.keys(strokes ?? {}).length > 0) {
     return (
       <>
-        {Object.keys(localStrokes.current)
+        {Object.keys(strokes ?? {})
           .map((key) => (
             <PlayerStroke
-              points={localStrokes.current[key].points}
-              color={localStrokes.current[key].color}
+              points={strokes[key].points}
+              color={strokes[key].color}
               canvasDimensions={canvasDimensions}
               key={key}
             />

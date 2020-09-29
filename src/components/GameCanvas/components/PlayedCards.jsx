@@ -4,6 +4,8 @@ import { Image, Rect, Text } from 'react-konva';
 import generateCardImage from '../../../helpers/generateCardImage';
 import { GameContext } from '../../../contexts/Contexts';
 
+import themeColors from '../../../assets/scss/user-variables.scss';
+
 const PlayedCards = ({ canvasDimensions }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings] = gameState || [];
@@ -50,12 +52,14 @@ const PlayedCards = ({ canvasDimensions }) => {
       ) : (
         <>
           <Rect
-            fill="#dddddd"
+            fill={themeColors['secondary-light']}
+            cornerRadius={10}
             height={playAreaDimensions.height}
             width={playAreaDimensions.width}
           />
           <Text
             text="Play area"
+            fill={themeColors['primary-1']}
             verticalAlign="middle"
             align="center"
             height={playAreaDimensions.height}

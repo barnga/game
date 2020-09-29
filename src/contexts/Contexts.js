@@ -13,3 +13,7 @@ export const SocketContext = createContext({
 export const GameContext = createContext({
   gameState: null,
 });
+
+export const StrokesContext = createContext({
+  strokesState: null,
+});

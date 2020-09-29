@@ -8,6 +8,7 @@ import GameButtons from '../../../components/GameButtons';
 import Chat from '../../../components/Chat/Chat';
 import TeacherGroupView from './TeacherGroupView';
 import Rulesheet from '../../../components/Rulesheet/Rulesheet';
+import withStrokes from '../../../hocs/withStrokes';
 
 const TeacherGameView = () => {
   const { socket } = useContext(SocketContext);
@@ -58,7 +59,7 @@ const TeacherGameView = () => {
                 <Card.Header>
                   <Nav variant="tabs">
                     {gameSettings.rooms?.map((room, idx) => (
-                      <Nav.Item>
+                      <Nav.Item key={room.roomId}>
                         <Nav.Link eventKey={`tab${room.roomId}`}>Group {idx + 1}</Nav.Link>
                       </Nav.Item>
                     ))}
@@ -82,4 +83,4 @@ const TeacherGameView = () => {
   );
 };
 
-export default TeacherGameView;
+export default withStrokes(TeacherGameView);

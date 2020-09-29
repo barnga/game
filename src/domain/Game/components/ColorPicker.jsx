@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { SliderPicker } from 'react-color';
 import PropTypes from 'prop-types';
 
-const ColorPicker = ({ setColor }) => {
-  const [stateColor, setStateColor] = useState(`hsl(${Math.floor(Math.random() * 360)}, 50, 50)`);
+const ColorPicker = ({ setColor, color }) => {
+  const [stateColor, setStateColor] = useState(color);
 
   const updateColor = ({ hex }) => {
     setStateColor(hex);
@@ -22,6 +22,7 @@ const ColorPicker = ({ setColor }) => {
 
 ColorPicker.propTypes = {
   setColor: PropTypes.func,
+  color: PropTypes.string,
 };
 
 export default ColorPicker;

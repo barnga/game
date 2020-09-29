@@ -2,8 +2,9 @@ import React, {
   useContext, useEffect, useRef, useState,
 } from 'react';
 import {
-  Col, Container, Row, Button,
+  Col, Container, Row,
 } from 'react-bootstrap';
+import convert from 'color-convert';
 import Chat from '../../../components/Chat/Chat';
 import Leaderboard from '../../../components/Leaderboard';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
@@ -12,12 +13,14 @@ import GameButtons from '../../../components/GameButtons';
 import Rulesheet from '../../../components/Rulesheet/Rulesheet';
 import VotingModal from '../../../components/VotingModal/VotingModal';
 import ColorPicker from './ColorPicker';
+import ClearButton from '../../../components/GameCanvas/components/ClearButton';
+import withStrokes from '../../../hocs/withStrokes';
 
 const PlayerGameView = () => {
   const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
-  const brushColor = useRef(`hsl(${Math.floor(Math.random() * 360)}, 50, 50)`);
+  const brushColor = useRef(`#${convert.hsl.hex(Math.random() * 360, 50, 50)}`);
 
   const [isGameLoaded, setIsGameLoaded] = useState(false);
 
@@ -95,19 +98,8 @@ const PlayerGameView = () => {
             </Row>
             <Row className="d-flex flex-row justify-content-center">
               <Col>
-                <ColorPicker setColor={setColor} />
-                <Button
-                  block
-                  variant="outline-primary"
-                  onClick={() => {
-                    setGameSettings((settings) => ({
-                      ...settings,
-                      strokes: {},
-                    }));
-                  }}
-                >
-                  Clear
-                </Button>
+                <ColorPicker setColor={setColor} color={brushColor.current} />
+                <ClearButton />
               </Col>
             </Row>
           </Col>
@@ -117,4 +109,4 @@ const PlayerGameView = () => {
   );
 };
 
-export default PlayerGameView;
+export default withStrokes(PlayerGameView);
