@@ -66,7 +66,6 @@ const PlayerGameView = () => {
     };
 
     const handleVoteUpdate = (votes) => {
-      console.log(votes);
       setGameSettings((settings) => ({
         ...settings,
         hasVoted: votes

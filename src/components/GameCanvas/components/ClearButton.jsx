@@ -2,7 +2,6 @@ import { Button } from 'react-bootstrap';
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { StrokesContext } from '../../../contexts/Contexts';
-import withStrokes from '../../../hocs/withStrokes';
 
 const ClearButton = ({ teacher, roomId }) => {
   const { strokesState } = useContext(StrokesContext) || {};

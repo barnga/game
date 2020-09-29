@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Chat from '../../../components/Chat/Chat';
 import GameCanvas from '../../../components/GameCanvas/GameCanvas';
 import ClearButton from '../../../components/GameCanvas/components/ClearButton';
+import NewRoundButton from '../../../components/GameCanvas/components/NewRoundButton';
 
 const TeacherGroupView = ({ room }) => (
   <Row className="h-100 p-1">
@@ -33,6 +34,7 @@ const TeacherGroupView = ({ room }) => (
       </Row>
       <Row className="d-flex flex-row justify-content-center">
         <Col>
+          <NewRoundButton roomId={room.roomId} />
           <ClearButton roomId={room.roomId} teacher />
         </Col>
       </Row>
