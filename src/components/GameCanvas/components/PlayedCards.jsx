@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { Image, Rect, Text } from 'react-konva';
 import generateCardImage from '../../../helpers/generateCardImage';
 import { GameContext } from '../../../contexts/Contexts';
-
 import themeColors from '../../../assets/scss/user-variables.scss';
 
-const PlayedCards = ({ canvasDimensions }) => {
+const PlayedCards = ({ isTeacher, canvasDimensions }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings] = gameState || [];
   const [playedCards, setPlayedCards] = useState(null);

@@ -9,11 +9,10 @@ import PlayedCards from './components/PlayedCards';
 import Hand from './components/Hand';
 import TeacherDrawingBoard from './components/TeacherDrawingBoard';
 import Winner from './components/Winner';
-
 import themeColors from '../../assets/scss/user-variables.scss';
 
 const GameCanvas = ({
-  brushColorRef, teacherView, roomId, aspectRatio = 1.618,
+  brushColorRef, teacherView, roomId, aspectRatio = 1.618, selectedTab,
 }) => {
   const { socket } = useContext(SocketContext) || {};
   const [canvasDimensions, setCanvasDimensions] = useState({ height: 0, width: 0 });
@@ -46,7 +45,7 @@ const GameCanvas = ({
     return () => {
       window.removeEventListener('resize', setDimensions);
     };
-  }, []);
+  }, [selectedTab]);
 
   return (
     <div className="h-100 w-100 justify-content-center align-content-center" ref={containerRef}>
@@ -54,7 +53,11 @@ const GameCanvas = ({
         {(gameContextValue) => (
           <StrokesContext.Consumer>
             {(strokesContextValue) => (
-              <Stage width={canvasDimensions.width} height={canvasDimensions.height} ref={stageRef}>
+              <Stage
+                width={canvasDimensions.width}
+                height={canvasDimensions.height}
+                ref={stageRef}
+              >
                 <GameContext.Provider value={gameContextValue}>
                   <Layer>
                     <Rect
@@ -75,7 +78,10 @@ const GameCanvas = ({
                     x={(canvasDimensions.width / 2) - (300 / 2)}
                     y={(canvasDimensions.height / 2) - (100 / 2)}
                   >
-                    <PlayedCards canvasDimensions={canvasDimensions} />
+                    <PlayedCards
+                      isTeacher={teacherView}
+                      canvasDimensions={canvasDimensions}
+                    />
                   </Layer>
                   <Layer>
                     <StrokesContext.Provider value={strokesContextValue}>
@@ -118,6 +124,7 @@ GameCanvas.propTypes = {
   teacherView: PropTypes.bool,
   roomId: PropTypes.string,
   aspectRatio: PropTypes.number,
+  selectedTab: PropTypes.any,
 };
 
 export default GameCanvas;

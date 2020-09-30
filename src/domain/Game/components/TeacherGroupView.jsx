@@ -8,7 +8,7 @@ import GameCanvas from '../../../components/GameCanvas/GameCanvas';
 import ClearButton from '../../../components/GameCanvas/components/ClearButton';
 import NewRoundButton from '../../../components/GameCanvas/components/NewRoundButton';
 
-const TeacherGroupView = ({ room }) => (
+const TeacherGroupView = ({ room, selectedTab }) => (
   <Row className="h-100 p-1">
     <Col lg={3} xl={4} className="h-100 d-flex flex-column col-12 p-1">
       <Card className="d-flex flex-grow-1 m-0 p-0 h-25 mb-2">
@@ -29,7 +29,7 @@ const TeacherGroupView = ({ room }) => (
     <Col lg={9} xl={8} className="col-12">
       <Row className="h-100 d-flex flex-row">
         <Col className="h-100 d-flex flex-column">
-          <GameCanvas roomId={room.roomId} teacherView />
+          <GameCanvas roomId={room.roomId} teacherView selectedTab={selectedTab} />
         </Col>
       </Row>
       <Row className="d-flex flex-row justify-content-center">
@@ -44,6 +44,7 @@ const TeacherGroupView = ({ room }) => (
 
 TeacherGroupView.propTypes = {
   room: PropTypes.any,
+  selectedTab: PropTypes.any,
 };
 
 export default TeacherGroupView;
