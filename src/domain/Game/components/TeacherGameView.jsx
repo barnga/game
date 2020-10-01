@@ -32,24 +32,41 @@ const TeacherGameView = () => {
       }
     };
 
-    // const handleGameUpdate = (data) => {
-    //   if (subscribed) {
-    //     setGameSettings((settings) => ({
-    //       ...settings,
-    //       roomNumber: data.roomNumber,
-    //       players: data.players,
-    //       playedCards: data.playedCards,
-    //       leaderboard: data.leaderboard,
-    //     }));
-    //   }
-    // };
+    const handleGameUpdate = (data) => {
+      if (subscribed) {
+        setGameSettings((settings) => {
+          // TODO: Set settings of room using roomId
+          const updatedRooms = settings.rooms;
+          updatedRooms[data.roomNumber - 1] = {
+            ...updatedRooms[data.roomNumber - 1],
+            //roomNumber: data.roomNumber,
+            //players: data.players,
+            playedCards: data.playedCards,
+            //leaderboard: data.leaderboard,
+          };
+
+          return {
+            ...settings,
+            rooms: updatedRooms,
+          };
+        });
+      }
+    };
 
     socket.emit('get rooms', handleRoomsUpdate);
     socket.on('rooms update', handleRoomsUpdate);
-    // socket.on('game update', handleGameUpdate);
+    socket.on('game update', handleGameUpdate);
 
-    return () => (subscribed = false);
+    return () => {
+      subscribed = false;
+      socket.off('rooms update', handleRoomsUpdate);
+      socket.off('game update', handleGameUpdate);
+    };
   }, []);
+
+  useEffect(() => {
+    console.log(gameSettings);
+  }, [gameSettings]);
 
   if (!gameSettings.rooms) {
     return (

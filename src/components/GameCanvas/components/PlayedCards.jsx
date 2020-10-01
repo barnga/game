@@ -5,20 +5,24 @@ import generateCardImage from '../../../helpers/generateCardImage';
 import { GameContext } from '../../../contexts/Contexts';
 import themeColors from '../../../assets/scss/user-variables.scss';
 
-const PlayedCards = ({ isTeacher, canvasDimensions }) => {
+const PlayedCards = ({ isTeacher, roomId, canvasDimensions }) => {
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings] = gameState || [];
   const [playedCards, setPlayedCards] = useState(null);
 
   useEffect(() => {
     (async () => {
-      if (gameSettings.playedCards) {
-        const updatedPlayedCards = await Promise.all(gameSettings.playedCards
+      const roomCards = isTeacher
+        ? gameSettings.rooms.filter((room) => room.roomId === roomId)[0].playedCards
+        : gameSettings.playedCards;
+
+      if (roomCards) {
+        const updatedPlayedCards = await Promise.all(roomCards
           .map((cardData) => generateCardImage(cardData.playedCard)));
         setPlayedCards(updatedPlayedCards);
       }
     })();
-  }, [gameState]);
+  }, [gameSettings]);
 
   const cardHeight = canvasDimensions.height / 4;
   const cardWidth = cardHeight / 1.4;
@@ -71,7 +75,8 @@ const PlayedCards = ({ isTeacher, canvasDimensions }) => {
 };
 
 PlayedCards.propTypes = {
-  socket: PropTypes.any,
+  isTeacher: PropTypes.bool,
+  roomId: PropTypes.string,
   canvasDimensions: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,

@@ -80,6 +80,7 @@ const GameCanvas = ({
                   >
                     <PlayedCards
                       isTeacher={teacherView}
+                      roomId={roomId}
                       canvasDimensions={canvasDimensions}
                     />
                   </Layer>
