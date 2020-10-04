@@ -28,6 +28,7 @@ const FiveTricksRules = () => {
           A player will be randomly chosen to start each game.
           Other players take turns playing a card.
           When it is your turn to play a card, your game board will display a green outline.
+          If it isn&apos;t your turn, your board will display a blue outline.
           The cards played (one from each player) constitute a “trick”.
           For the last trick, there may not be enough cards for everyone to play.
         </p>
@@ -65,7 +66,7 @@ const FiveTricksRules = () => {
         )}
         <h5>End/Win</h5>
         <p>
-          Game ends when all cards have been played.
+          The game ends when all cards have been played.
           The player who has won the most tricks wins the game.
         </p>
       </Modal.Body>
