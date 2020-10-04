@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { GameContext, SocketContext } from '../../../contexts/Contexts';
 import Svg from '../../Svg';
@@ -9,6 +9,7 @@ const Messages = ({ global, admin, roomId }) => {
   const { socket } = useContext(SocketContext) || {};
   const { gameState } = useContext(GameContext) || {};
   const [gameSettings, setGameSettings] = gameState || [];
+  const endRef = useRef(null);
 
   useEffect(() => {
     let subscribed = true;
@@ -30,6 +31,7 @@ const Messages = ({ global, admin, roomId }) => {
               roomMessages,
             });
           });
+          endRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       };
 
@@ -63,18 +65,19 @@ const Messages = ({ global, admin, roomId }) => {
       || (!admin && gameSettings.messages?.length === 0)
   ) {
     return (
-      <div className="d-flex flex-column flex-grow-1 overflow-auto justify-content-center align-items-center">
+      <div className="d-flex flex-column flex-grow-1 justify-content-center align-items-center">
         <div className="text-center">
           <Svg src={groupchat} classNames="icon" alt="decoration" />
           <p>No messages</p>
         </div>
+        <div ref={endRef} />
       </div>
     );
   }
 
   let backgroundDark = false;
   return (
-    <div className="d-flex flex-column flex-grow-1 overflow-auto">
+    <div className="d-flex flex-column flex-grow-1" style={{ overflowY: 'scroll', overflowX: 'hidden' }}>
       {(admin ? gameSettings.roomMessages[roomId] : gameSettings.messages)?.map((message, idx) => {
         const messageList = admin ? gameSettings.roomMessages[roomId] : gameSettings.messages;
         const newSender = idx === 0
@@ -99,6 +102,7 @@ const Messages = ({ global, admin, roomId }) => {
           </div>
         );
       })}
+      <div ref={endRef} className="pt-3" />
     </div>
   );
 };

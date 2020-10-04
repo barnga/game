@@ -35,14 +35,13 @@ const TeacherGameView = () => {
     const handleGameUpdate = (data) => {
       if (subscribed) {
         setGameSettings((settings) => {
-          // TODO: Set settings of room using roomId
           const updatedRooms = settings.rooms;
           updatedRooms[data.roomNumber - 1] = {
             ...updatedRooms[data.roomNumber - 1],
-            //roomNumber: data.roomNumber,
-            //players: data.players,
             playedCards: data.playedCards,
-            //leaderboard: data.leaderboard,
+            // roomNumber: data.roomNumber,
+            // players: data.players,
+            // leaderboard: data.leaderboard,
           };
 
           return {
@@ -64,13 +63,9 @@ const TeacherGameView = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(gameSettings);
-  }, [gameSettings]);
-
   if (!gameSettings.rooms) {
     return (
-      <Container className="min-vh-100 d-flex align-items-center justify-content-center">
+      <Container className="vh-100 d-flex align-items-center justify-content-center">
         <Loading />
       </Container>
     );
@@ -79,19 +74,20 @@ const TeacherGameView = () => {
   return (
     <>
       <Rulesheet isTeacher />
-      <Container fluid className="vh-100 d-flex flex-column justify-content-center p-5 m-0">
-        <Row className="h-100 m-0">
-          <Col lg={3} className="h-100 d-flex flex-column">
+      <Container fluid className="d-flex vh-100 p-5 m-0">
+        <Row className="d-flex w-100 m-0">
+          <Col lg={3} className="d-flex h-100 flex-column">
             <GameButtons />
             <Button onClick={() => handleChangeRooms(socket)} className="mb-2">Shuffle rooms</Button>
             <Chat global />
           </Col>
-          <Col className="h-100 d-flex flex-column">
-            <Card className="shadow-3d h-100 d-flex flex-grow-1 mb-0">
+          <Col className="d-flex h-100">
+            <Card className="d-flex flex-grow-1 mb-0 shadow-3d h-100">
               <Tab.Container
                 id="teacherGroupTabs"
                 defaultActiveKey={`tab${gameSettings.rooms[0].roomId}`}
                 onSelect={(eventKey) => setSelectedTab(eventKey)}
+                className="d-flex h-100"
               >
                 <Card.Header>
                   <Nav variant="tabs">
@@ -102,13 +98,13 @@ const TeacherGameView = () => {
                     ))}
                   </Nav>
                 </Card.Header>
-                <Card.Body>
-                  <Tab.Content>
+                <Card.Body className="d-flex h-75">
+                  <Tab.Content className="d-flex w-100 h-100">
                     {gameSettings.rooms?.map((room) => (
                       <Tab.Pane
                         eventKey={`tab${room.roomId}`}
                         key={room.roomId}
-                        className="p-1"
+                        className="d-flex h-100 w-100 p-1"
                       >
                         <TeacherGroupView room={room} selectedTab={selectedTab} />
                       </Tab.Pane>

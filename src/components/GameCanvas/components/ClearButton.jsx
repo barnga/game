@@ -11,6 +11,7 @@ const ClearButton = ({ teacher, roomId }) => {
     <Button
       block
       variant="outline-primary"
+      className="mb-2"
       onClick={() => {
         if (teacher) {
           const { roomStrokes } = strokesSettings;

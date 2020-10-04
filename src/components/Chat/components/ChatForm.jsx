@@ -10,29 +10,27 @@ const ChatForm = ({ global, admin, roomId }) => {
   const [gameSettings] = gameState || [];
 
   return (
-    <div className="p-2">
-      <Formik
-        initialValues={{
-          message: '',
-        }}
-        onSubmit={(values, { resetForm }) => {
-          handleMessageSend(socket, values, global, roomId);
-          resetForm();
-        }}
-      >
-        <Form className="w-100">
-          <div className="form-group">
-            <Field
-              name="message"
-              autoComplete="off"
-              className="form-control"
-              placeholder={gameSettings.disableChat ? 'Chat is disabled' : 'Send a message'}
-              disabled={gameSettings.disableChat && !admin && !global}
-            />
-          </div>
-        </Form>
-      </Formik>
-    </div>
+    <Formik
+      initialValues={{
+        message: '',
+      }}
+      onSubmit={(values, { resetForm }) => {
+        handleMessageSend(socket, values, global, roomId);
+        resetForm();
+      }}
+    >
+      <Form className="w-100 p-2">
+        <div className="form-group">
+          <Field
+            name="message"
+            autoComplete="off"
+            className="form-control"
+            placeholder={gameSettings.disableChat ? 'Chat is disabled' : 'Send a message'}
+            disabled={gameSettings.disableChat && !admin && !global}
+          />
+        </div>
+      </Form>
+    </Formik>
   );
 };
 
