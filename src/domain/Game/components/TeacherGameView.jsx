@@ -104,7 +104,8 @@ const TeacherGameView = () => {
                       <Tab.Pane
                         eventKey={`tab${room.roomId}`}
                         key={room.roomId}
-                        className="d-flex h-100 w-100 p-1"
+                        className="h-100 w-100 p-1"
+                        style={{ display: selectedTab !== `tab${room.roomId}` ? 'none !important' : 'flex !important' }}
                       >
                         <TeacherGroupView room={room} selectedTab={selectedTab} />
                       </Tab.Pane>
