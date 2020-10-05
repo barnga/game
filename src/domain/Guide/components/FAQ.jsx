@@ -8,7 +8,7 @@ const FAQ = () => (
     <div className="container">
       <div className="row justify-content-center">
         <div className="col-xl-8 col-lg-9">
-          <h3 className="h2">Frequently Asked Questions</h3>
+          <h3 className="h2 pb-2">Frequently Asked Questions</h3>
           <Accordion>
             {faq.map((question, idx) => (
               <div className="card card-sm card-body hover-shadow-sm mb-0 mt-0">
@@ -19,7 +19,7 @@ const FAQ = () => (
               </div>
             ))}
           </Accordion>
-          <p className="mt-2">Still have questions? <a href="#">Get in touch</a></p>
+          <p className="mt-3">Still have questions? <a href="mailto:barngaproject@gmail.com">Get in touch</a></p>
         </div>
       </div>
     </div>

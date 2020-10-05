@@ -31,8 +31,8 @@ const Features = () => (
             <h5>Customizable</h5>
             <div>
               Game facilitators can easily adjust game
-              settings, such as the number of players per group,
-              time limits, and more. Facilitators can also update rule sheets
+              settings, such as the number of players per group.
+              In the future, facilitators will be able update rule sheets
               in realtime, which was impossible when playing the physical game.
             </div>
           </div>
