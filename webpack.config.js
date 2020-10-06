@@ -50,6 +50,8 @@ module.exports = (env) => ({
   plugins: [
     new CopyWebpackPlugin([
       { from: 'public/index.html' },
+      { from: 'public/robots.txt' },
+      { from: 'public/sitemap.xml' },
       { from: 'public/css/', to: 'css/' },
       { from: 'public/assets/', to: 'assets/' },
     ]),
