@@ -18,8 +18,8 @@ const faq = [
   <>
     <p>
       Click <Link to="/create">here</Link> to create a game that others can join.
-      A minimum of 6 players to start the game.
-      Once the game is started, players will be randomly split
+      Starting the game requires a minimum of 6 players.
+      Once the game starts, players are randomly split
       into groups and be automatically dealt a hand.
     </p>
     <h6>Facilitator view</h6>
@@ -27,7 +27,7 @@ const faq = [
     <h6>Player view</h6>
     <img src={playerView} alt="Player's view of the game, which allows them to play cards, chat with other players, and draw on the game board." />
     <p>
-      Facilitators can spectate and send messages to every group.
+      Facilitators can spectate each group and send messages to them.
       The global chat can also be used to send messages to all players.
       Before facilitators shuffle the groups, players have access
       to their group&apos;s chat and rulesheet.
