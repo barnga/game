@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import teacherView from '../assets/img/gameplay/teacher_view.png';
+import playerView from '../assets/img/gameplay/player_view.png';
 
 const faq = [
   {
@@ -13,17 +15,32 @@ const faq = [
   {
     title: 'How do I play it?',
     body:
-      <>
-        Click <Link to="/create">here</Link> to create a game that others can join.
-        You’ll need a minimum of 6 players to start the game.
-        Once you start the game, players will be randomly split into groups and be automatically dealt a hand.
-        As a facilitator, you’ll be able to spectate every group, and you’ll be able to send messages to everyone by using the global chat.
-        In the first round, players will have access to all the methods of communication (the chat and the drawing tool).
-        Winners in this round will be decided by the trump cards and the rules set at each of the tables.
-        Each table will have a different rule sheet. The facilitator can re-deal the cards in each one of the rooms to allow the players
-        in those rooms to get familiar with their table's rules and play more rounds under that rule set.
-        When the rooms are shuffled, players will not be able to view their rulesheet or speak in their chat.
-      </>,
+  <>
+    <p>
+      Click <Link to="/create">here</Link> to create a game that others can join.
+      A minimum of 6 players to start the game.
+      Once the game is started, players will be randomly split
+      into groups and be automatically dealt a hand.
+    </p>
+    <h6>Facilitator view</h6>
+    <img src={teacherView} alt="Facilitator's view of the game, in which they can spectate games, chat with players, and shuffle the groups." />
+    <h6>Player view</h6>
+    <img src={playerView} alt="Player's view of the game, which allows them to play cards, chat with other players, and draw on the game board." />
+    <p>
+      Facilitators can spectate and send messages to every group.
+      The global chat can also be used to send messages to all players.
+      Before facilitators shuffle the groups, players have access
+      to their group&apos;s chat and rulesheet.
+      The winner for each round is automatically decided by the computer,
+      and their score is updated in the leaderboard.
+      The facilitator can re-deal the cards in each of the rooms to allow players
+      in those rooms to get familiar with their group&apos;s rules.
+      When the rooms are shuffled, players will not be
+      able to view their rulesheet or speak in their chat,
+      although they will still be allowed to draw on the game board.
+      Players will vote for the winner after each round.
+    </p>
+  </>,
   },
 ];
 
