@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Image, Rect, Text } from 'react-konva';
+import {
+  Image, Rect, Text, Layer,
+} from 'react-konva';
 import generateCardImage from '../../../helpers/generateCardImage';
 import { GameContext } from '../../../contexts/Contexts';
 import themeColors from '../../../assets/scss/user-variables.scss';
@@ -17,8 +19,12 @@ const PlayedCards = ({ isTeacher, roomId, canvasDimensions }) => {
         : gameSettings.playedCards;
 
       if (roomCards) {
+        console.log(roomCards);
         const updatedPlayedCards = await Promise.all(roomCards
-          .map((cardData) => generateCardImage(cardData.playedCard)));
+          .map(async (cardData) => ({
+            name: cardData.nickname,
+            image: await generateCardImage(cardData.playedCard),
+          })));
         setPlayedCards(updatedPlayedCards);
       }
     })();
@@ -32,23 +38,41 @@ const PlayedCards = ({ isTeacher, roomId, canvasDimensions }) => {
     height: canvasDimensions.height * 0.3,
   };
 
+  const playAreaCoordinates = {
+    x: (canvasDimensions.width - playAreaDimensions.width) / 2,
+    y: (canvasDimensions.height - playAreaDimensions.height) / 2,
+  };
+
   return (
-    <>
+    <Layer x={playAreaCoordinates.x} y={playAreaCoordinates.y}>
       {playedCards ? (
         <>
           {playedCards.map((card, idx) => {
-            const [cardName] = card.src.split('/').slice(-1);
+            const [cardName] = card.image.src.split('/').slice(-1);
             const parsedCardName = cardName.split('.svg')[0];
 
             return (
-              <Image
-                image={card}
-                height={cardHeight}
-                width={cardWidth}
-                x={idx * 50}
-                stroke="black"
-                key={parsedCardName}
-              />
+              <>
+                <Image
+                  image={card.image}
+                  height={cardHeight}
+                  width={cardWidth}
+                  x={idx * 50}
+                  stroke="black"
+                  key={parsedCardName}
+                />
+                <Text
+                  text={card.name}
+                  width={cardWidth}
+                  fontSize={16}
+                  fontStyle="bold"
+                  x={idx * 50}
+                  y={-40 + -20 * (idx % 2)}
+                  fill={themeColors[idx % 2 ? 'primary-1' : 'secondary']}
+                  align="center"
+                  verticalAlign="bottom"
+                />
+              </>
             );
           })}
         </>
@@ -70,7 +94,7 @@ const PlayedCards = ({ isTeacher, roomId, canvasDimensions }) => {
           />
         </>
       )}
-    </>
+    </Layer>
   );
 };
 

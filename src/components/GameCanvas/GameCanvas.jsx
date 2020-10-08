@@ -74,16 +74,11 @@ const GameCanvas = ({
                       style={{ border: '2px solid red' }}
                     />
                   </Layer>
-                  <Layer
-                    x={(canvasDimensions.width / 2) - (300 / 2)}
-                    y={(canvasDimensions.height / 2) - (100 / 2)}
-                  >
-                    <PlayedCards
-                      isTeacher={teacherView}
-                      roomId={roomId}
-                      canvasDimensions={canvasDimensions}
-                    />
-                  </Layer>
+                  <PlayedCards
+                    isTeacher={teacherView}
+                    roomId={roomId}
+                    canvasDimensions={canvasDimensions}
+                  />
                   <Layer>
                     <StrokesContext.Provider value={strokesContextValue}>
                       {teacherView
