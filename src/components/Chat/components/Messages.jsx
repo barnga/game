@@ -87,12 +87,15 @@ const Messages = ({ global, admin, roomId }) => {
           : backgroundDark; // Dont toggle if message is global
 
         const key = `${message.sender.socketId}_${idx}`;
-        const backgroundColor = (backgroundDark ? '#ffffff' : themeColors.light);
+        let backgroundColor = (backgroundDark ? '#ffffff' : themeColors.light);
+
+        backgroundColor = message.global ? themeColors['primary-2'] : backgroundColor;
+        backgroundColor = message.system ? themeColors.success : backgroundColor;
 
         return (
           <div
             style={{
-              backgroundColor: (message.global ? themeColors['primary-2'] : backgroundColor),
+              backgroundColor,
             }}
             key={key}
             className="px-3 pt-1"
